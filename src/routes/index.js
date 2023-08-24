@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
         const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
         const iconUrls = files.map(file => {
-            const fileName = file.name.replace('Basicos/', ''); // Obtener el nombre de archivo sin la carpeta "Basicos/"
+            const fileName = file.name.replace('Basicos/', '');
             if (fileName) {
                 return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
             }
@@ -33,6 +33,28 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/servicios-basicos', async (req, res) => {
+    try {
+        const contactsSnapshot = await db.collection('serviciosbasicos').get();
+        const contacts = contactsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
+        const iconUrls = files.map(file => {
+            const fileName = file.name.replace('Basicos/', '');
+            if (fileName) {
+                return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
+            }
+            return null;
+        }).filter(url => url !== null);
+
+        res.render('index-basicos', { contacts, iconUrls });
+
+    } catch (error) {
+        console.error('Error getting contacts:', error);
+        res.render('index-basicos', { contacts: [], iconUrls: [] });
+    }
+});
+
 router.post('/new-contact', async (req, res) => {
     try {
         const newContact = {
@@ -44,10 +66,10 @@ router.post('/new-contact', async (req, res) => {
             tiempo: req.body.tiempo,
         };
         await db.collection('serviciosbasicos').add(newContact);
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     } catch (error) {
         console.error('Error creating new service:', error);
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     }
 });
 
@@ -56,10 +78,10 @@ router.get('/delete-contact/:id', async (req, res) => {
         const contactId = req.params.id;
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         await contactRef.delete();
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     } catch (error) {
         console.error('Error deleting service:', error);
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     }
 });
 
@@ -72,7 +94,7 @@ router.get('/edit-contact/:id', async (req, res) => {
         res.render('edit', { contact: contactData, contactId });
     } catch (error) {
         console.error('Error fetching service for edit:', error);
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     }
 });
 
@@ -89,10 +111,10 @@ router.post('/update-contact/:id', async (req, res) => {
         };
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         await contactRef.set(updatedContact, { merge: true });
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     } catch (error) {
         console.error('Error updating service:', error);
-        res.redirect('/');
+        res.redirect('/servicios-basicos');
     }
 });
 
