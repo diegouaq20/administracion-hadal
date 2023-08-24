@@ -1,0 +1,75 @@
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.image-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease-in-out;
+}
+
+
+
+.image-option input[type="radio"] {
+    display: none;
+}
+
+.image-option input[type="radio"]:checked + .icon-option {
+    border: 2px solid #1BC0B2;
+}
+
+.icon-option {
+    max-width: 50px;
+    max-height: 50px;
+    margin: 5px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.icon-option:hover {
+    transform: scale(1.1); /* Add a slight scale effect on hover */
+}
+
+.title-bold {
+    font-weight: bold;
+  }
+  
+  .non-bold {
+    font-weight: normal;
+  }
+  .details label.card-text{
+    display: block;
+}
+.btn-hide-show{
+    background-color: #1BC0B2;
+    border: #1BC0B2;
+    border-color: #1BC0B2;
+}
+
+
+
+
+.icon-procedure {
+    display: flex;
+    align-items: flex-start;
+}
+
+.icon-option {
+    max-width: 50px;
+    max-height: 50px;
+    margin-right: 10px; /* Ajusta el margen según sea necesario */
+}
+
+.procedure-label {
+    flex-grow: 1;
+    margin-top: 5px; /* Agrega un margen superior de 10px */
+}
+
+
+.edit-bold{
+    font-weight: bold;
+}

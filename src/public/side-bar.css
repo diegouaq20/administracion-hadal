@@ -1,0 +1,67 @@
+body {
+    overflow-x: hidden;
+}
+
+#wrapper {
+    overflow-x: hidden;
+    transition: all 0.3s ease;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin 0.25s ease-out;
+    -moz-transition: margin 0.25s ease-out;
+    -o-transition: margin 0.25s ease-out;
+    transition: margin 0.25s ease-out;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+#page-content-wrapper {
+    min-width: 100vw;
+}
+
+/* Personaliza la apariencia de la barra lateral */
+.sidebar-heading {
+    font-size: 1.2rem;
+    padding: 1rem;
+    text-align: center;
+    background-color: #1BC0B2;
+    color: #FFFFFF;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 0;
+    color: #245366;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+/* Estilo adicional para el contenido principal */
+.container-fluid {
+    padding-top: 1rem;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+}
