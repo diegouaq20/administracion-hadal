@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h1>Servicios Básicos</h1>
+                        <h1>Servicios Avanzados</h1>
                     </div>
                     <div class="card-body">
                         {{#if contacts}}
@@ -96,9 +96,9 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <a href="/servicios-basicos/delete-contact/{{id}}" class="btn btn-danger"
+                                        <a href="/servicios-avanzados/delete-contact/{{id}}" class="btn btn-danger"
                                             onclick="return confirm('¿Estás seguro de que deseas eliminar este servicio?')">Eliminar</a>
-                                        <a href="/servicios-basicos/edit-contact/{{id}}" class="btn btn-primary"
+                                        <a href="/servicios-avanzados/edit-contact/{{id}}" class="btn btn-primary"
                                             onclick="return confirm('¿Estás seguro de que deseas editar este servicio?')">Editar</a>
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@
                         <h1>Añadir Nuevo Servicio</h1>
                     </div>
                     <div class="card-body">
-                        <form action="/servicios-basicos/new-contact" method="POST">
+                        <form action="/servicios-avanzados/new-contact/" method="POST">
 
                             <div class="form-group">
                                 <label class="title-bold" for="icono">Selecciona el icono:</label>

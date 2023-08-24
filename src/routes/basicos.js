@@ -1,21 +1,15 @@
 const { Router } = require('express');
 const router = Router();
-const admin = require('firebase-admin');
+const { db, storage } = require('./firebase'); // Importar la instancia de Firebase desde firebase.js
 
-var serviceAccount = require('../../node-firebase-yt-firebase-adminsdk-cxkhu-e6fd0e8c6b.json');
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'node-firebase-yt.appspot.com'
-});
-
-const db = admin.firestore();
-const storage = admin.storage();
-
+// Ruta para mostrar todos los servicios básicos
 router.get('/', async (req, res) => {
     try {
+        // Obtener los datos de los servicios básicos desde Firestore
         const contactsSnapshot = await db.collection('serviciosbasicos').get();
         const contacts = contactsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+        // Obtener las URL de los iconos desde Firebase Storage
         const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
         const iconUrls = files.map(file => {
             const fileName = file.name.replace('Basicos/', '');
@@ -25,36 +19,16 @@ router.get('/', async (req, res) => {
             return null;
         }).filter(url => url !== null);
 
-        res.render('index', { contacts, iconUrls });
-
-    } catch (error) {
-        console.error('Error getting contacts:', error);
-        res.render('index', { contacts: [], iconUrls: [] });
-    }
-});
-
-router.get('/servicios-basicos', async (req, res) => {
-    try {
-        const contactsSnapshot = await db.collection('serviciosbasicos').get();
-        const contacts = contactsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
-        const iconUrls = files.map(file => {
-            const fileName = file.name.replace('Basicos/', '');
-            if (fileName) {
-                return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
-            }
-            return null;
-        }).filter(url => url !== null);
-
+        // Renderizar la vista y pasar los datos
         res.render('index-basicos', { contacts, iconUrls });
 
     } catch (error) {
-        console.error('Error getting contacts:', error);
+        console.error('Error obteniendo los servicios básicos:', error);
         res.render('index-basicos', { contacts: [], iconUrls: [] });
     }
 });
 
+// Ruta para agregar un nuevo servicio básico
 router.post('/new-contact', async (req, res) => {
     try {
         const newContact = {
@@ -68,36 +42,41 @@ router.post('/new-contact', async (req, res) => {
         await db.collection('serviciosbasicos').add(newContact);
         res.redirect('/servicios-basicos');
     } catch (error) {
-        console.error('Error creating new service:', error);
+        console.error('Error creando un nuevo servicio:', error);
         res.redirect('/servicios-basicos');
     }
 });
 
+// Ruta para eliminar un servicio básico
 router.get('/delete-contact/:id', async (req, res) => {
     try {
         const contactId = req.params.id;
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         await contactRef.delete();
+        console.log('Contacto eliminado exitosamente');
         res.redirect('/servicios-basicos');
     } catch (error) {
-        console.error('Error deleting service:', error);
+        console.error('Error eliminando el servicio:', error);
         res.redirect('/servicios-basicos');
     }
 });
 
+
+// Ruta para editar un servicio básico
 router.get('/edit-contact/:id', async (req, res) => {
     try {
         const contactId = req.params.id;
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         const docSnapshot = await contactRef.get();
         const contactData = docSnapshot.exists ? docSnapshot.data() : null;
-        res.render('edit', { contact: contactData, contactId });
+        res.render('edit-basicos', { contact: contactData, contactId });
     } catch (error) {
-        console.error('Error fetching service for edit:', error);
+        console.error('Error obteniendo el servicio para editar:', error);
         res.redirect('/servicios-basicos');
     }
 });
 
+// Ruta para actualizar un servicio básico
 router.post('/update-contact/:id', async (req, res) => {
     try {
         const contactId = req.params.id;
@@ -113,7 +92,7 @@ router.post('/update-contact/:id', async (req, res) => {
         await contactRef.set(updatedContact, { merge: true });
         res.redirect('/servicios-basicos');
     } catch (error) {
-        console.error('Error updating service:', error);
+        console.error('Error actualizando el servicio:', error);
         res.redirect('/servicios-basicos');
     }
 });

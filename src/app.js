@@ -5,9 +5,7 @@ const path = require('path');
 
 const app = express();
 
-
-//settings
-app.set('port', process.env.PORT || 4000);
+// Configuración de la vista de Handlebars
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs.engine ({
     defaultLayout: 'main',
@@ -15,18 +13,34 @@ app.engine('.hbs', exphbs.engine ({
  }));
 app.set('view engine', '.hbs');
 
-//middlewares
+// Middlewares
 app.use(morgan('dev'));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
-
-//routes
-app.use(require('./routes/index.js'));
-
-//static files
+// Rutas estáticas
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', (req, res) => {
+    res.render('index'); // Renderiza la vista index.hbs
+});
+// Importar los routers
+const basicosRouter = require('./routes/basicos');
+const intermediosRouter = require('./routes/intermedios');
+const avanzadosRouter = require('./routes/avanzados');
+
+// Usar los routers en las rutas correspondientes
+app.use('/servicios-basicos', basicosRouter);
+app.use('/servicios-intermedios', intermediosRouter);
+app.use('/servicios-avanzados', avanzadosRouter);
+
+app.use(require('./routes/basicos.js'));
+app.use(require('./routes/intermedios.js'));
+app.use(require('./routes/avanzados.js'));
 
 
+// Puerto del servidor
+app.set('port', process.env.PORT || 4000);
 
-module.exports = app;
+// Iniciar el servidor
+
+module.exports = app; // Exportar la instancia de la aplicación

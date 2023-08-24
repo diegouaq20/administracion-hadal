@@ -55,7 +55,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h1>Servicios Básicos</h1>
+                        <h1>Servicios Intermedios</h1>
                     </div>
                     <div class="card-body">
                         {{#if contacts}}
@@ -64,14 +64,14 @@
                             <li class="list-group-item">
                                 <div class="card mb-3">
                                     <div class="card-body" id="card-body-{{id}}">
-                                       <div class="icon-procedure">
-    <img src="{{icono}}" alt="Icono del servicio" class="icon-option" />
-    <div>
-        <label class="card-text title-bold procedure-label">
-            Procedimiento: <span class="non-bold">{{procedimiento}}</span>
-        </label>
-    </div>
-</div>
+                                        <div class="icon-procedure">
+                                            <img src="{{icono}}" alt="Icono del servicio" class="icon-option" />
+                                            <div>
+                                                <label class="card-text title-bold procedure-label">
+                                                    Procedimiento: <span class="non-bold">{{procedimiento}}</span>
+                                                </label>
+                                            </div>
+                                        </div>
 
 
                                         <div class="details" style="display: none;">
@@ -96,9 +96,9 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <a href="/servicios-basicos/delete-contact/{{id}}" class="btn btn-danger"
+                                        <a href="/servicios-intermedios/delete-contact/{{id}}" class="btn btn-danger"
                                             onclick="return confirm('¿Estás seguro de que deseas eliminar este servicio?')">Eliminar</a>
-                                        <a href="/servicios-basicos/edit-contact/{{id}}" class="btn btn-primary"
+                                        <a href="/servicios-intermedios/edit-contact/{{id}}" class="btn btn-primary"
                                             onclick="return confirm('¿Estás seguro de que deseas editar este servicio?')">Editar</a>
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@
                         <h1>Añadir Nuevo Servicio</h1>
                     </div>
                     <div class="card-body">
-                        <form action="/servicios-basicos/new-contact" method="POST">
+                        <form action="/servicios-intermedios/new-contact/" method="POST">
 
                             <div class="form-group">
                                 <label class="title-bold" for="icono">Selecciona el icono:</label>
