@@ -12,8 +12,6 @@
     transition: border-color 0.3s ease-in-out;
 }
 
-
-
 .image-option input[type="radio"] {
     display: none;
 }
@@ -36,14 +34,16 @@
 
 .title-bold {
     font-weight: bold;
-  }
+}
   
-  .non-bold {
+.non-bold {
     font-weight: normal;
-  }
-  .details label.card-text{
+}
+
+.details label.card-text{
     display: block;
 }
+
 .btn-hide-show{
     background-color: #1BC0B2;
     border: #1BC0B2;

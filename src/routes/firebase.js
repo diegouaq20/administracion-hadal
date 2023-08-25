@@ -4,7 +4,7 @@ var serviceAccount = require('../../node-firebase-yt-firebase-adminsdk-cxkhu-e6f
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    storageBucket: 'node-firebase-yt.appspot.com'
+    storageBucket: 'hadal-8eb6f.appspot.com'
 });
 
 const db = admin.firestore();
