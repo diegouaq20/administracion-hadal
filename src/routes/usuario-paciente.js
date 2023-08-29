@@ -22,10 +22,10 @@ router.get('/:id', async (req, res) => {
         const userId = req.params.id;
         // Obtener información de usuario por ID desde Firestore
         const userSnapshot = await db.collection('usuariopaciente').doc(userId).get();
-        const userData = userSnapshot.exists ? userSnapshot.data() : null;
-
+        const userData = userSnapshot.exists ? { id: userSnapshot.id, ...userSnapshot.data() } : null;
+        
         if (userData) {
-            res.render('edit-pacientes', { user: userData });
+            res.render('edit-pacientes', { user: userData }); // Asegúrate de pasar el ID como parte del objeto
         } else {
             res.status(404).send('Usuario no encontrado');
         }
@@ -34,5 +34,24 @@ router.get('/:id', async (req, res) => {
         res.status(500).send('Error al obtener información del usuario');
     }
 });
+
+// Ruta para anular un documento
+router.post('/anular-documento/:id/:tipoDocumento', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const tipoDocumento = req.params.tipoDocumento;
+
+        // Actualizar el campo del documento a null en Firestore
+        await db.collection('usuariopaciente').doc(userId).update({
+            [tipoDocumento]: null,
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error al anular el documento:', error);
+        res.json({ success: false });
+    }
+});
+
 
 module.exports = router;

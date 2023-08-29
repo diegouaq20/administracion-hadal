@@ -18,7 +18,7 @@
                 {{#if user}}
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="text-center">Información del Paciente</h2>
+                        <h3 class="text-center">Información del Paciente</h3>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -28,10 +28,13 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <p class="mb-1">Nombre: {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}</p>
+                                <p class="mb-1">Nombre: {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}
+                                </p>
                                 <p class="mb-1">Email: {{user.email}}</p>
                                 <p class="mb-1">Domicilio: {{user.domicilio}}</p>
                                 <p class="mb-1">Telefono: {{user.telefono}}</p>
+                                <p class="mb-1">ID: {{user.id}}</p> <!-- Agregado para mostrar el ID -->
+
                                 <!-- Agrega más campos aquí -->
                             </div>
                         </div>
@@ -46,58 +49,113 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="text-center">Documentos</h2>
+                        <h3 class="text-center">Documentos</h3>
                     </div>
                     <div class="card-body">
                         {{#if user}}
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="card document-card">
-                                        <div class="card-header">
-                                            <h4 class="text-center"> <br>INE</h4>
-                                        </div>
-                                        <div class="card-body text-center">
-                                            <a href="{{user.ine}}" target="_blank" class="btn btn-primary">Ver Documento</a>
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card document-card">
+                                    <div class="card-header">
+                                        <h4 class="text-center"> <br>INE</h4>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card document-card">
-                                        <div class="card-header">
-                                            <h4 class="text-center"> <br> CURP</h4>
-                                        </div>
-                                        <div class="card-body text-center">
-                                            <a href="{{user.curp}}" target="_blank" class="btn btn-primary">Ver Documento</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card document-card">
-                                        <div class="card-header">
-                                            <h4 class="text-center two-line-text">Receta <br> Médica</h4>
-                                        </div>
-                                        <div class="card-body text-center">
-                                            <a href="{{user.receta}}" target="_blank" class="btn btn-primary">Ver Documento</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="card document-card">
-                                        <div class="card-header">
-                                            <h4 class="text-center">Comprobante de Domicilio</h4>
-                                        </div>
-                                        <div class="card-body text-center">
-                                            <a href="{{user.comprobanteDomicilio}}" target="_blank" class="btn btn-primary">Ver Documento</a>
-                                        </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.ine}}
+                                        <a href="{{user.ine}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'ine')">Anular Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="card document-card">
+                                    <div class="card-header">
+                                        <h4 class="text-center"> <br> CURP</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.curp}}
+                                        <a href="{{user.curp}}" target="_blank" class="btn btn-primary">Ver
+                                            Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'curp')">Anular Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card document-card">
+                                    <div class="card-header">
+                                        <h4 class="text-center two-line-text">Receta <br> Médica</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.receta}}
+                                        <a href="{{user.receta}}" target="_blank" class="btn btn-primary">Ver
+                                            Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'receta')">Anular Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card document-card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">Comprobante de Domicilio</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.comprobanteDomicilio}}
+                                        <a href="{{user.comprobanteDomicilio}}" target="_blank"
+                                            class="btn btn-primary">Ver Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'comprobanteDomicilio')">Anular
+                                            Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {{else}}
-                            <p>Usuario no encontrado</p>
+                        <p>Usuario no encontrado</p>
                         {{/if}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        function anularDocumento(userId, tipoDocumento) {
+            if (confirm("¿Estás seguro de que deseas anular este documento?")) {
+                fetch(`/usuario-paciente/anular-documento/${userId}/${tipoDocumento}`, {
+                    method: 'POST',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Documento anulado exitosamente");
+                            location.reload();
+                        } else {
+                            alert("Hubo un error al anular el documento");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Hubo un error en la solicitud");
+                    });
+            }
+        }
+    </script>
+
 </body>
