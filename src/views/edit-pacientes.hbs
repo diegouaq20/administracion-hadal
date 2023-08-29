@@ -1,0 +1,103 @@
+<head>
+    <title>Editar Paciente</title>
+    <!-- Asegúrate de incluir las referencias necesarias -->
+    <link rel="stylesheet" href="/main-edit.css">
+    <link rel="stylesheet" href="/side-bar.css">
+    <link rel="stylesheet" href="/main-paciente.css">
+</head>
+
+<body>
+    <div class="back-button">
+        <a href="javascript:void(0)" onclick="window.history.back()" class="btn btn-secondary boton-volver">
+            <span class="fa fa-arrow-left fa-3 boton-volver"></span> Regresar
+        </a>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {{#if user}}
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Información del Paciente</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-4">
+                                <div class="avatar-circle">
+                                    <img src="{{user.photoUrl}}" alt="Foto de {{user.id}}" width="100">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <p class="mb-1">Nombre: {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}</p>
+                                <p class="mb-1">Email: {{user.email}}</p>
+                                <p class="mb-1">Domicilio: {{user.domicilio}}</p>
+                                <p class="mb-1">Telefono: {{user.telefono}}</p>
+                                <!-- Agrega más campos aquí -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <p>Usuario no encontrado</p>
+                {{/if}}
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Documentos</h2>
+                    </div>
+                    <div class="card-body">
+                        {{#if user}}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card document-card">
+                                        <div class="card-header">
+                                            <h4 class="text-center"> <br>INE</h4>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <a href="{{user.ine}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card document-card">
+                                        <div class="card-header">
+                                            <h4 class="text-center"> <br> CURP</h4>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <a href="{{user.curp}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card document-card">
+                                        <div class="card-header">
+                                            <h4 class="text-center two-line-text">Receta <br> Médica</h4>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <a href="{{user.receta}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card document-card">
+                                        <div class="card-header">
+                                            <h4 class="text-center">Comprobante de Domicilio</h4>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <a href="{{user.comprobanteDomicilio}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{else}}
+                            <p>Usuario no encontrado</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

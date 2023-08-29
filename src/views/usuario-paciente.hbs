@@ -1,0 +1,32 @@
+<head>
+    <title>Pacientes</title>
+    <!-- Asegúrate de incluir las referencias necesarias -->
+</head>
+
+<body>
+    <h1>Pacientes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each allUsers}}
+            <tr>
+                <td><img src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50"></td>
+                <td><a href="/usuario-paciente/{{id}}">{{id}}</a></td>
+                <td>{{this.userData.nombre}}</td>
+                <td>{{this.userData.email}}</td>
+                <td>
+                    <a href="/usuario-paciente/{{id}}">Ver</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>

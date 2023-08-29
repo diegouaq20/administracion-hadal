@@ -1,0 +1,16 @@
+.avatar-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.boton-volver {
+    background-color: #1BC0B2;
+}
