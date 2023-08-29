@@ -1,11 +1,19 @@
-<html>
+<!-- index-usuarios.hbs -->
 
 <head>
-    <title>Inicio</title>
+    <title>Usuarios</title>
+    <!-- Asegúrate de incluir las referencias necesarias -->
 </head>
 
 <body>
-   <label for="">Inicio index.hbs</label>
+    <div id="userCards">
+        {{#each users}}
+            <div class="user-card">
+                <h3>Usuario: {{id}}</h3>
+                <div class="documents">
+                    <a href="/usuarios/pacientes/{{id}}" target="_blank">Ver documentos</a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 </body>
-
-</html>

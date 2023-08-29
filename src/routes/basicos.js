@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const { db, storage } = require('./firebase'); // Importar la instancia de Firebase desde firebase.js
+const Handlebars = require('handlebars'); // Asegúrate de que handlebars esté instalado y requerido
+
+
 
 // Ruta para mostrar todos los servicios básicos
 router.get('/', async (req, res) => {
@@ -69,12 +72,32 @@ router.get('/edit-contact/:id', async (req, res) => {
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         const docSnapshot = await contactRef.get();
         const contactData = docSnapshot.exists ? docSnapshot.data() : null;
-        res.render('edit-basicos', { contact: contactData, contactId });
+
+        // Obtener las URL de los iconos desde Firebase Storage
+        const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
+        const iconUrls = files.map(file => {
+            const fileName = file.name.replace('Basicos/', '');
+            if (fileName) {
+                return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
+            }
+            return null;
+        }).filter(url => url !== null);
+
+        res.render('edit-basicos', { contact: contactData, contactId, iconUrls });
+
     } catch (error) {
         console.error('Error obteniendo el servicio para editar:', error);
         res.redirect('/servicios-basicos');
     }
 });
+
+Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+    if (v1 === v2) {
+        return options.fn(this);
+    }
+    return options.inverse(this);
+});
+
 
 // Ruta para actualizar un servicio básico
 router.post('/update-contact/:id', async (req, res) => {

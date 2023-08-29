@@ -2,10 +2,17 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="/main-edit.css">
+    <link rel="stylesheet" href="/side-bar.css">
 </head>
 <style>
     .title-bold {
         font-weight: bold;
+    }
+
+    .icon-option {
+        max-width: 50px;
+        max-height: 50px;
     }
 </style>
 
@@ -21,12 +28,13 @@
                         <form action="/servicios-basicos/update-contact/{{contactId}}" method="POST">
 
 
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label class="title-bold" for="icono">Selecciona el icono:</label>
                                 <div class="image-grid">
                                     {{#each iconUrls}}
                                     <label class="image-option">
-                                        <input type="radio" name="icono" value="{{this}}" />
+                                        <input type="radio" name="icono" value="{{this}}" {{#ifCond this
+                                            ../contact.icono}}checked{{/ifCond}} />
                                         <img src="{{this}}" alt="Icono" class="icon-option" />
                                     </label>
                                     {{/each}}
