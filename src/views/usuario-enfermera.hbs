@@ -33,7 +33,7 @@
         </thead>
         <tbody>
             {{#each allUsers}}
-            <tr data-category="{{this.userData.tipoCategoria}}">
+            <tr data-category="{{this.userData.categoria}}">
                 <td><img src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50"></td>
                 <td><a href="/usuario-enfermera/{{id}}">{{id}}</a></td>
                 <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
