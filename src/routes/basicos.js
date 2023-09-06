@@ -41,6 +41,7 @@ router.post('/new-contact', async (req, res) => {
             precio: req.body.precio,
             procedimiento: req.body.procedimiento,
             tiempo: req.body.tiempo,
+            tipoCategoria: 'Basico'
         };
         await db.collection('serviciosbasicos').add(newContact);
         res.redirect('/servicios-basicos');

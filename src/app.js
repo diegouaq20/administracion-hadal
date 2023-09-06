@@ -40,7 +40,6 @@ app.use(require('./routes/avanzados.js'));
 app.use('/usuario-paciente', require('./routes/usuario-paciente'));
 app.use('/usuario-enfermera', require('./routes/usuario-enfermera'));
 
-
 // Puerto del servidor
 app.set('port', process.env.PORT || 4000);
 

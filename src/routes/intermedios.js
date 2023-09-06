@@ -38,6 +38,7 @@ router.post('/new-contact', async (req, res) => {
             precio: req.body.precio,
             procedimiento: req.body.procedimiento,
             tiempo: req.body.tiempo,
+            tipoCategoria: 'Intermedio'
         };
         await db.collection('serviciosintermedios').add(newContact);
         res.redirect('/servicios-intermedios');

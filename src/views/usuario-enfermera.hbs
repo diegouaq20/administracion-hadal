@@ -1,10 +1,91 @@
-<!-- index-usuarios.hbs -->
-
 <head>
-    <title>Usuarios</title>
+    <title>Enfermeras</title>
     <!-- Asegúrate de incluir las referencias necesarias -->
 </head>
 
 <body>
-  <label for="">Usuario: Enfermera</label>
+    <h1>Enfermeras</h1>
+    <div class="search-container">
+        <label for="searchInput">Buscar:</label>
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Escribe el parámetro...">
+    </div>
+
+    <div class="filter-container">
+        <label for="categoryFilter">Filtrar por categoría:</label>
+        <select id="categoryFilter" onchange="filterTableByCategory()">
+            <option value="">Todas</option>
+            <option value="Basico">Basico</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+        </select>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each allUsers}}
+            <tr data-category="{{this.userData.tipoCategoria}}">
+                <td><img src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50"></td>
+                <td><a href="/usuario-enfermera/{{id}}">{{id}}</a></td>
+                <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
+                <td>{{this.userData.email}}</td>
+                <td>{{this.userData.categoria}}</td>
+                <td>
+                    <a href="/usuario-enfermera/{{id}}">Ver</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </body>
+
+<script>
+    // Función para filtrar la tabla basada en el valor de búsqueda
+    function filterTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.querySelector('.table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let shouldDisplay = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                const cellText = cells[j].textContent || cells[j].innerText;
+                if (cellText.toUpperCase().indexOf(filter) > -1) {
+                    shouldDisplay = true;
+                    break;
+                }
+            }
+
+            rows[i].style.display = shouldDisplay ? '' : 'none';
+        }
+    }
+
+    function filterTableByCategory() {
+        const select = document.getElementById('categoryFilter');
+        const selectedCategory = select.value;
+        const table = document.querySelector('.table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const category = rows[i].getAttribute('data-category');
+            if (selectedCategory === '' || category === selectedCategory) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+</script>

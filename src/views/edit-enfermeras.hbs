@@ -1,5 +1,5 @@
 <head>
-    <title>Editar Paciente</title>
+    <title>Editar Enfermera</title>
     <!-- Asegúrate de incluir las referencias necesarias -->
     <link rel="stylesheet" href="/main-edit.css">
     <link rel="stylesheet" href="/side-bar.css">
@@ -8,7 +8,7 @@
 
 <body>
     <div class="back-button">
-        <a href="/usuario-paciente" onclick="goBack()" class="btn btn-secondary boton-volver">
+        <a href="/usuario-enfermera" onclick="goBack()" class="btn btn-secondary boton-volver">
             <span class="fa fa-arrow-left fa-3 boton-volver"></span> Regresar
         </a>
     </div>
@@ -18,7 +18,7 @@
                 {{#if user}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Información del Paciente</h3>
+                        <h3 class="text-center">Información de la enfermera</h3>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -35,6 +35,16 @@
                                 <p class="mb-1">Telefono: {{user.telefono}}</p>
                                 <p class="mb-1">ID: {{user.id}}</p>
                                 <!-- Agregado para mostrar el ID -->
+                                <label for="tipoCategoria" class="form-label">Categoría:</label>
+                                <select class="form-select rounded-pill py-1 px-3 custom-bg-color" id="categoria"
+                                    onchange="actualizarCategoriaEnfermera('{{user.id}}', this.value)">
+                                    <option value="Basico" {{#ifCondEdit user.categoria '===' 'Basico'
+                                        }}selected{{/ifCondEdit}}>Básico</option>
+                                    <option value="Intermedio" {{#ifCondEdit user.categoria '===' 'Intermedio'
+                                        }}selected{{/ifCondEdit}}>Intermedio</option>
+                                    <option value="Avanzado" {{#ifCondEdit user.categoria '===' 'Avanzado'
+                                        }}selected{{/ifCondEdit}}>Avanzado</option>
+                                </select>
                                 <!-- Agrega más campos aquí -->
                             </div>
                         </div>
@@ -55,7 +65,7 @@
                         {{#if user}}
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="card document-card">
+                                <div class="card document-card mb-4">
                                     <div class="card-header">
                                         <h4 class="text-center"> <br>INE</h4>
                                     </div>
@@ -92,14 +102,14 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center two-line-text">Receta <br> Médica</h4>
+                                        <h4 class="text-center two-line-text">Cédula <br> Profesional</h4>
                                     </div>
                                     <div class="card-body text-center">
-                                        {{#if user.receta}}
-                                        <a href="{{user.receta}}" target="_blank" class="btn btn-primary">Ver
+                                        {{#if user.cedulaProfecional}}
+                                        <a href="{{user.cedulaProfecional}}" target="_blank" class="btn btn-primary">Ver
                                             Documento</a>
                                         <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'receta')">Anular Documento</button>
+                                            onclick="anularDocumento('{{user.id}}', 'cedulaProfecional')">Anular Documento</button>
                                         {{else}}
                                         <button class="btn btn-primary" disabled>Ver Documento</button>
                                         <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
@@ -110,6 +120,25 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
+                                        <h4 class="text-center">Título <br> Profesional</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.tituloProfecional}}
+                                        <a href="{{user.tituloProfecional}}" target="_blank"
+                                            class="btn btn-primary">Ver Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'tituloProfecional')">Anular
+                                            Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card document-card mb-4">
+                                    <div class="card-header">
                                         <h4 class="text-center">Comprobante de Domicilio</h4>
                                     </div>
                                     <div class="card-body text-center">
@@ -118,6 +147,44 @@
                                             class="btn btn-primary">Ver Documento</a>
                                         <button class="btn btn-danger mt-2"
                                             onclick="anularDocumento('{{user.id}}', 'comprobanteDomicilio')">Anular
+                                            Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card document-card mb-4">
+                                    <div class="card-header">
+                                        <h4 class="text-center">Primer <br> Referencia</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.referenciaUno}}
+                                        <a href="{{user.referenciaUno}}" target="_blank"
+                                            class="btn btn-primary">Ver Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'referenciaUno')">Anular
+                                            Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card document-card mb-4">
+                                    <div class="card-header">
+                                        <h4 class="text-center">Segunda <br> Referencia</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.referenciaDos}}
+                                        <a href="{{user.referenciaDos}}" target="_blank"
+                                            class="btn btn-primary">Ver Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'referenciaDos')">Anular
                                             Documento</button>
                                         {{else}}
                                         <button class="btn btn-primary" disabled>Ver Documento</button>
@@ -136,9 +203,32 @@
         </div>
     </div>
     <script>
+
+        function actualizarCategoriaEnfermera(userId, nuevaCategoria) {
+            if (confirm("¿Estás seguro de que deseas cambiar la categoría?")) {
+                fetch(`/usuario-enfermera/actualizar-categoria/${userId}/${nuevaCategoria}`, {
+                    method: 'POST',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Categoría actualizada exitosamente");
+                            location.reload();
+                        } else {
+                            alert("Hubo un error al actualizar la categoría");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Hubo un error en la solicitud");
+                    });
+            }
+        }
+
+
         function anularDocumento(userId, tipoDocumento) {
             if (confirm("¿Estás seguro de que deseas anular este documento?")) {
-                fetch(`/usuario-paciente/anular-documento/${userId}/${tipoDocumento}`, {
+                fetch(`/usuario-enfermera/anular-documento/${userId}/${tipoDocumento}`, {
                     method: 'POST',
                 })
                     .then(response => response.json())
@@ -156,6 +246,7 @@
                     });
             }
         }
+
     </script>
 
 </body>
