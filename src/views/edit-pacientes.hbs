@@ -34,7 +34,12 @@
                                 <p class="mb-1">Domicilio: {{user.domicilio}}</p>
                                 <p class="mb-1">Telefono: {{user.telefono}}</p>
                                 <p class="mb-1">ID: {{user.id}}</p>
-                                <!-- Agregado para mostrar el ID -->
+                                <p class="mb-1">Activo: {{user.acceso}}</p>
+                                <!-- Default switch -->
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitches">
+                                    <label class="custom-control-label" for="customSwitches">Activar o desactivar usuario</label>
+                                </div>
                                 <!-- Agrega más campos aquí -->
                             </div>
                         </div>
