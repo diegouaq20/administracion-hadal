@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('./firebase'); // Importa la instancia de Firestore correctamente
+const { db } = require('./firebase');
+const Handlebars = require('handlebars'); // Asegúrate de que handlebars esté instalado y requerido
+ // Importa la instancia de Firestore correctamente
 
 // Ruta para mostrar la lista de usuarios
 router.get('/', async (req, res) => {
@@ -50,6 +52,18 @@ router.post('/anular-documento/:id/:tipoDocumento', async (req, res) => {
     } catch (error) {
         console.error('Error al anular el documento:', error);
         res.json({ success: false });
+    }
+});
+
+Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+    switch (operator) {
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        // Agrega más operadores según sea necesario
+        default:
+            return options.inverse(this);
     }
 });
 
