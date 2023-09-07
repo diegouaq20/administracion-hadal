@@ -1,9 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { db } = require('./firebase');
-const Handlebars = require('handlebars'); // Asegúrate de que handlebars esté instalado y requerido
- // Importa la instancia de Firestore correctamente
+const Handlebars = require('handlebars');
+const { db } = require('./firebase'); // Importa la instancia de Firestore correctamente
 
+Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+    switch (operator) {
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        // Agrega más operadores según sea necesario
+        default:
+            return options.inverse(this);
+    }
+});
 // Ruta para mostrar la lista de usuarios
 router.get('/', async (req, res) => {
     try {
@@ -55,15 +65,21 @@ router.post('/anular-documento/:id/:tipoDocumento', async (req, res) => {
     }
 });
 
-Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
-    switch (operator) {
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '!==':
-            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-        // Agrega más operadores según sea necesario
-        default:
-            return options.inverse(this);
+// Ruta para cambiar el estado de un usuario
+router.post('/cambiar-estado/:id/:nuevoEstado', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const nuevoEstado = req.params.nuevoEstado;
+
+        // Actualizar el campo de categoría en Firestore
+        await db.collection("usuariopaciente").doc(userId).update({
+            acceso: nuevoEstado,
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error al cambiar el estado:', error);
+        res.json({ success: false });
     }
 });
 

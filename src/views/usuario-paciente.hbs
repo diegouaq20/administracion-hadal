@@ -9,7 +9,7 @@
         <label for="searchInput">Buscar:</label>
         <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Escribe el parámetro...">
     </div>
-     <div class="filter-container">
+    <div class="filter-container">
         <label for="categoryFilter">Filtrar por acceso:</label>
         <select id="categoryFilter" onchange="filterTableByCategory()">
             <option value="">Todas</option>
@@ -76,7 +76,7 @@
         }
     }
 
-     function filterTableByCategory() {
+    function filterTableByCategory() {
         const select = document.getElementById('categoryFilter');
         const selectedCategory = select.value;
         const table = document.querySelector('.table');

@@ -28,6 +28,7 @@
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Categoría</th>
+                <th>Acceso</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -39,6 +40,13 @@
                 <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
                 <td>{{this.userData.email}}</td>
                 <td>{{this.userData.categoria}}</td>
+                <td>
+                    {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
+                        Permitido
+                    {{else}}
+                        Bloqueado
+                    {{/ifCond}}
+                </td>
                 <td>
                     <a href="/usuario-enfermera/{{id}}">Ver</a>
                 </td>
