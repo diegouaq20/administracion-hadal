@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Handlebars = require("handlebars");
 const { db } = require('./firebase'); // Importa la instancia de Firestore correctamente
 
 // Ruta para mostrar la lista de usuarios
@@ -52,6 +53,26 @@ router.post('/anular-documento/:id/:tipoDocumento', async (req, res) => {
         res.json({ success: false });
     }
 });
+
+// Ruta para cambiar el estado de un usuario
+router.post('/cambiar-estado/:id/:nuevoEstado', async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const nuevoEstado = req.params.nuevoEstado;
+
+        // Actualizar el campo de categoría en Firestore
+        await db.collection("usuariopaciente").doc(userId).update({
+            acceso: nuevoEstado,
+        });
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error al cambiar el estado:', error);
+        res.json({ success: false });
+    }
+});
+
+
 
 
 module.exports = router;

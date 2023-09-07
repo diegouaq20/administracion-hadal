@@ -91,4 +91,23 @@ router.post("/actualizar-categoria/:id/:nuevaCategoria", async (req, res) => {
   }
 });
 
+//cambiar estado de la enferemra
+router.post("/cambiar-estado/:id/:nuevoEstado", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const nuevoEstado = req.params.nuevoEstado;
+
+    // Actualizar el campo de categoría en Firestore
+    await db.collection("usuarioenfermera").doc(userId).update({
+      acceso: nuevoEstado,
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error al cambiar el estado:", error);
+    res.json({ success: false });
+  }
+});
+
+
 module.exports = router;

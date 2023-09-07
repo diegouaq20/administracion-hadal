@@ -34,12 +34,15 @@
                                 <p class="mb-1">Domicilio: {{user.domicilio}}</p>
                                 <p class="mb-1">Telefono: {{user.telefono}}</p>
                                 <p class="mb-1">ID: {{user.id}}</p>
-                                <p class="mb-1">Activo: {{user.acceso}}</p>
-                                <!-- Default switch -->
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitches">
-                                    <label class="custom-control-label" for="customSwitches">Activar o desactivar usuario</label>
-                                </div>
+                                <label for="estadoUsuario" class="form-label">Estado:</label>
+                                <select class="form-select rounded-pill py-1 px-3 custom-bg-color" id="estadoUsuario"
+                                    onchange="actualizarEstadoPaciente('{{user.id}}', this.value)">
+                                    <option value="bloqueado" {{#ifCondEdit user.acceso '===' 'bloqueado'
+                                        }}selected{{/ifCondEdit}}>Bloqueado</option>
+                                    <option value="desbloqueado" {{#ifCondEdit user.acceso '===' 'desbloqueado'
+                                        }}selected{{/ifCondEdit}}>Permitido</option>
+                                </select>
+
                                 <!-- Agrega más campos aquí -->
                             </div>
                         </div>
@@ -153,6 +156,27 @@
                             location.reload();
                         } else {
                             alert("Hubo un error al anular el documento");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        alert("Hubo un error en la solicitud");
+                    });
+            }
+        }
+
+        function actualizarEstadoPaciente(userId, nuevoEstado) {
+            if (confirm("¿Estás seguro de que deseas cambiar el estado de este usuario?")) {
+                fetch(`/usuario-paciente/cambiar-estado/${userId}/${nuevoEstado}`, {
+                    method: 'POST',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Estado actualizado correctamente");
+                            location.reload();
+                        } else {
+                            alert("Ocurrio un error al actualizar el estado");
                         }
                     })
                     .catch(error => {
