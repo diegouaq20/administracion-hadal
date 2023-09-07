@@ -29,19 +29,26 @@
             </tr>
         </thead>
         <tbody>
-            {{#each allUsers}}
-            <tr data-category="{{this.userData.acceso}}">
-                <td><img src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50"></td>
-                <td><a href="/usuario-paciente/{{id}}">{{id}}</a></td>
-                <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
-                <td>{{this.userData.email}}</td>
-                <td>{{this.userData.acceso}}</td>
-                <td>
-                    <a href="/usuario-paciente/{{id}}">Ver</a>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
+    {{#each allUsers}}
+    <tr data-category="{{this.userData.acceso}}">
+        <td><img src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50"></td>
+        <td><a href="/usuario-paciente/{{id}}">{{id}}</a></td>
+        <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
+        <td>{{this.userData.email}}</td>
+        <td>
+            {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
+                Permitido
+            {{else}}
+                Bloqueado
+            {{/ifCond}}
+        </td>
+
+        <td>
+            <a href="/usuario-paciente/{{id}}">Ver</a>
+        </td>
+    </tr>
+    {{/each}}
+</tbody>
     </table>
 </body>
 

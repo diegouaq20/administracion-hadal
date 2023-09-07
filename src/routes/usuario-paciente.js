@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Handlebars = require("handlebars");
 const { db } = require('./firebase'); // Importa la instancia de Firestore correctamente
 
 // Ruta para mostrar la lista de usuarios
@@ -72,7 +71,15 @@ router.post('/cambiar-estado/:id/:nuevoEstado', async (req, res) => {
     }
 });
 
-
-
-
+Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+    switch (operator) {
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        // Agrega más operadores según sea necesario
+        default:
+            return options.inverse(this);
+    }
+});
 module.exports = router;
