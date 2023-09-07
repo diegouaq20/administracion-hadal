@@ -18,8 +18,14 @@
             <option value="Intermedio">Intermedio</option>
             <option value="Avanzado">Avanzado</option>
         </select>
-    </div>
 
+        <label for="categoryFilterAccess">Filtrar por acceso:</label>
+        <select id="categoryFilterAccess" onchange="filterTableByAccess()">
+            <option value="">Todas</option>
+            <option value="bloqueado">Bloqueado</option>
+            <option value="desbloqueado">Permitido</option>
+        </select>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -40,11 +46,11 @@
                 <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
                 <td>{{this.userData.email}}</td>
                 <td>{{this.userData.categoria}}</td>
-                <td>
+                <td data-access="{{this.userData.acceso}}">
                     {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
-                        Permitido
+                    Permitido
                     {{else}}
-                        Bloqueado
+                    Bloqueado
                     {{/ifCond}}
                 </td>
                 <td>
@@ -54,6 +60,7 @@
             {{/each}}
         </tbody>
     </table>
+
 </body>
 
 <script>
@@ -95,5 +102,25 @@
             }
         }
     }
+
+    function filterTableByAccess() {
+        const select = document.getElementById('categoryFilterAccess');
+        const selectedAccess = select.value;
+        const table = document.querySelector('.table');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const accessCell = rows[i].querySelector('[data-access]');
+            const access = accessCell.getAttribute('data-access');
+
+            if (selectedAccess === '' || access === selectedAccess.toLowerCase()) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+
+
 
 </script>
