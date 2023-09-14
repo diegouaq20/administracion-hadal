@@ -23,8 +23,8 @@
         }
 
         function validarFormulario() {
-            var iconoSeleccionado = false;
             var iconos = document.getElementsByName('icono');
+            var iconoSeleccionado = false;
 
             for (var i = 0; i < iconos.length; i++) {
                 if (iconos[i].checked) {
@@ -38,9 +38,46 @@
                 return; // No hacer nada más
             }
 
+            var procedimiento = document.getElementById('procedimiento').value.trim();
+            var descripcion = document.getElementById('descripcion').value.trim();
+            var tiempo = document.getElementById('tiempo').value.trim();
+            var precio = document.getElementById('precio').value.trim();
+
+            var camposFaltantes = [];
+
+            if (procedimiento === "") {
+                camposFaltantes.push('Procedimiento');
+            }
+
+            if (descripcion === "") {
+                camposFaltantes.push('Descripción');
+            }
+
+            if (tiempo === "") {
+                camposFaltantes.push('Tiempo');
+            } else if (!/^\d*$/.test(tiempo)) {
+                alert('El campo Tiempo debe contener solo números. \nExpresa el campo en minutos, ejemplo:\nTiempo: 120');
+                return; // No hacer nada más
+            }
+
+            if (precio === "") {
+                camposFaltantes.push('Precio');
+            } else if (!/^\d*$/.test(precio)) {
+                alert('El campo Precio debe contener solo números.');
+                return; // No hacer nada más
+            }
+
+            if (camposFaltantes.length > 0) {
+                var mensaje = 'Los siguientes campos son obligatorios: ' + camposFaltantes.join(', ');
+                alert(mensaje);
+                return; // No hacer nada más
+            }
+
             // Continuar con el envío del formulario
             document.querySelector('form').submit();
         }
+
+
     </script>
 </head>
 
@@ -59,14 +96,14 @@
                             <li class="list-group-item">
                                 <div class="card mb-3">
                                     <div class="card-body" id="card-body-{{id}}">
-                                       <div class="icon-procedure">
-    <img src="{{icono}}" alt="Icono del servicio" class="icon-option" />
-    <div>
-        <label class="card-text title-bold procedure-label">
-            Procedimiento: <span class="non-bold">{{procedimiento}}</span>
-        </label>
-    </div>
-</div>
+                                        <div class="icon-procedure">
+                                            <img src="{{icono}}" alt="Icono del servicio" class="icon-option" />
+                                            <div>
+                                                <label class="card-text title-bold procedure-label">
+                                                    Procedimiento: <span class="non-bold">{{procedimiento}}</span>
+                                                </label>
+                                            </div>
+                                        </div>
 
 
                                         <div class="details" style="display: none;">
@@ -113,13 +150,12 @@
                     </div>
                     <div class="card-body">
                         <form action="/servicios-basicos/new-contact" method="POST">
-
                             <div class="form-group">
                                 <label class="title-bold" for="icono">Selecciona el icono:</label>
                                 <div class="image-grid">
                                     {{#each iconUrls}}
                                     <label class="image-option">
-                                        <input type="radio" name="icono" value="{{this}}" />
+                                        <input type="radio" name="icono" value="{{this}}" required />
                                         <img src="{{this}}" alt="Icono" class="icon-option" />
                                     </label>
                                     {{/each}}
@@ -129,27 +165,33 @@
                             <div class="form-group">
                                 <label class="title-bold" for="procedimiento">Procedimiento:</label>
                                 <input type="text" id="procedimiento" name="procedimiento" placeholder="Procedimiento"
-                                    class="form-control" />
+                                    class="form-control" required />
                             </div>
+
                             <div class="form-group">
                                 <label class="title-bold" for="descripcion">Descripción:</label>
                                 <textarea id="descripcion" name="descripcion" placeholder="Descripción"
-                                    class="form-control" rows="4"></textarea>
+                                    class="form-control" rows="4" required></textarea>
                             </div>
+
+                            <div class="form-group">
+                                <label class="title-bold" for="tiempo">Tiempo:</label>
+                                <input type="text" id="tiempo" name="tiempo" placeholder="Tiempo" class="form-control"
+                                    inputmode="numeric" pattern="^\d*$" required />
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="title-bold" for="precio">Precio:</label>
+                                <input type="text" id="precio" name="precio" placeholder="Precio" class="form-control"
+                                    inputmode="numeric" pattern="^\d*$" required />
+
+                            </div>
+
                             <div class="form-group">
                                 <label class="title-bold" for="material">Material:</label>
                                 <input type="text" id="material" name="material" placeholder="Material"
                                     class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label class="title-bold" for="tiempo">Tiempo:</label>
-                                <input type="text" id="tiempo" name="tiempo" placeholder="Tiempo" class="form-control"
-                                    pattern="[0-9]*" inputmode="numeric" required />
-                            </div>
-                            <div class="form-group">
-                                <label class="title-bold" for="precio">Precio:</label>
-                                <input type="text" id="precio" name="precio" placeholder="Precio" class="form-control"
-                                    pattern="[0-9]*" inputmode="numeric" required />
                             </div>
 
                             <button type="button" class="btn btn-primary btn-block"

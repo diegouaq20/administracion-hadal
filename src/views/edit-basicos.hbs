@@ -2,19 +2,13 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="/main-edit.css">
     <link rel="stylesheet" href="/side-bar.css">
-</head>
-<style>
-    .title-bold {
-        font-weight: bold;
-    }
+    <link rel="stylesheet" href="/main-edit.css">
+    <link rel="stylesheet" href="/main.css">
 
-    .icon-option {
-        max-width: 50px;
-        max-height: 50px;
-    }
-</style>
+
+
+</head>
 
 <body>
     <div class="container-fluid">
@@ -27,18 +21,23 @@
                     <div class="card-body">
                         <form action="/servicios-basicos/update-contact/{{contactId}}" method="POST">
 
-
                             <div class="form-group">
                                 <label class="title-bold" for="icono">Selecciona el icono:</label>
                                 <div class="image-grid">
                                     {{#each iconUrls}}
                                     <label class="image-option">
-                                        <input type="radio" name="icono" value="{{this}}" {{#ifCond this
-                                            ../contact.icono}}checked{{/ifCond}} />
+                                        <input type="radio" name="icono" value="{{this}}" {{#ifCondIcono
+                                            contact.icono}}checked{{/ifCondIcono}} />
                                         <img src="{{this}}" alt="Icono" class="icon-option" />
                                     </label>
                                     {{/each}}
                                 </div>
+                            </div>
+
+                            <!-- Agrega esta imagen para mostrar el icono de la base de datos -->
+                            <div class="form-group">
+                                <label class="title-bold" for="iconoActual">Icono Actual:</label>
+                                <img src="{{contact.icono}}" alt="Icono Actual" class="icon-option icono-actual" />
                             </div>
 
 
@@ -59,13 +58,15 @@
                             </div>
                             <div class="form-group">
                                 <label class="title-bold" for="tiempo">Tiempo:</label>
-                                <input type="text" id="tiempo" name="tiempo" value="{{contact.tiempo}}"
-                                    class="form-control">
+                                <input type="text" id="tiempo" name="tiempo" placeholder="Tiempo"
+                                    value="{{contact.tiempo}}" class="form-control" pattern="[0-9]*" inputmode="numeric"
+                                    required />
                             </div>
                             <div class="form-group">
                                 <label class="title-bold" for="precio">Precio:</label>
-                                <input type="text" id="precio" name="precio" value="{{contact.precio}}"
-                                    class="form-control">
+                                <input type="text" id="precio" name="precio" placeholder="Precio"
+                                    value="{{contact.precio}}" class="form-control" pattern="[0-9]*" inputmode="numeric"
+                                    required />
                             </div>
                             <button class="btn btn-primary btn-block">
                                 Actualizar
