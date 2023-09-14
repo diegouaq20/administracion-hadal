@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+
+    <link rel="stylesheet" href="/main-edit.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/flatly/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/main-registro-usuarios.css" />
+    <link rel="stylesheet" href="/side-bar.css">
+    <link rel="stylesheet" href="/main-edit.css">
+    <link rel="stylesheet" href="/main.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-6">
+                <!-- Columna para la tabla en el lado izquierdo -->
+                <table id="miTabla" class="table table-container">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Tipo de Administrador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each allUsers}}
+                        <tr>
+                            <td>{{userData.usuario}}</td>
+                            <td>{{this.userData.master}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+
+
+                <script>
+                    //Datatables
+                    $(document).ready(function () {
+                        $('#miTabla').DataTable({
+                            "paging": true,    // Habilita la paginación
+                            "pageLength": 10,  // Número de filas por página
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+                            },
+                            // Puedes personalizar otras opciones aquí según tus necesidades
+                        });
+                    });
+                </script>
+
+
+
+            </div>
+            <div class="col-md-6"> <!-- Columna para el formulario en el lado derecho -->
+                <div class="card">
+                    <div class="card-header bg-custom-primary text-white text-center">
+                        <h2>Registro de Usuario</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/registro-usuarios">
+                            <!-- Campo de Usuario -->
+                            <div class="form-group">
+                                <label for="username">Usuario:</label>
+                                <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+
+                            <!-- Campo de Contraseña -->
+                            <div class="form-group">
+                                <label for="password">Contraseña:</label>
+                                <input type="password" id="password" name="password" class="form-control" required>
+                            </div>
+
+                            <!-- Campo de Tipo de Usuario -->
+                            <div class="form-group">
+                                <label for="master">Tipo de usuario:</label>
+                                <select id="master" name="master" class="form-control">
+                                    <option value="false">Admin Normal</option>
+                                    <option value="true">Superadmin</option>
+                                </select>
+                            </div>
+                            <!-- Botón de Registro -->
+                            <button type="submit" class="btn btn-custom-primary btn-block">Registrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        console.log("Datos de usuarios en la vista:", {{ allUsers }});
+    </script>
+    
+</body>
+
+</html>

@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hadal Administración</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/flatly/bootstrap.min.css">
-        <link rel="stylesheet" href="main.css">
-        
+    <link rel="stylesheet" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/client.js"></script>
+
+
     <link rel="stylesheet" type="text/css" href="/side-bar.css" />
 </head>
+
 <body>
     <div class="d-flex" id="wrapper">
         <!-- Barra lateral -->
@@ -28,7 +33,7 @@
                         <!-- Agrega más elementos de servicio aquí -->
                     </div>
                 </div>
-                 <div class="dropdown">
+                <div class="dropdown">
                     <a href="#" class="list-group-item list-group-item-action dropdown-toggle" data-toggle="dropdown">
                         Usuarios
                     </a>
@@ -38,6 +43,8 @@
                         <!-- Agrega más elementos de servicio aquí -->
                     </div>
                 </div>
+                <a id="logoutButton" class="list-group-item list-group-item-action">Cerrar Sesión</a>
+
                 <!-- Agrega más elementos de la barra lateral aquí -->
             </div>
         </div>
@@ -54,12 +61,15 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        $("#menu-toggle").click(function(e) {
+        $("#menu-toggle").click(function (e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
     </script>
 </body>
+
 </html>
