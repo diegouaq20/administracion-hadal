@@ -65,4 +65,114 @@ router.get("/", checkAuthentication, async (req, res) => {
   }
 });
 
+//Eliminar usuario
+// Ruta para eliminar usuario (ahora maneja una solicitud POST)
+router.post("/eliminar-usuarios/:id", checkAuthentication, async (req, res) => {
+  try {
+    const contactId = req.params.id;
+
+    // Verifica que el ID sea válido antes de intentar eliminar
+    if (!contactId) {
+      console.error("ID de usuario no válido");
+      res.redirect("/registro-usuarios");
+      return;
+    }
+
+    // Obtiene la referencia al documento de Firebase que corresponde al ID
+    const contactRef = db.collection("usuarioadmin").doc(contactId);
+
+    // Verifica si el documento existe antes de intentar eliminarlo
+    const contactDoc = await contactRef.get();
+    if (!contactDoc.exists) {
+      console.error("El usuario no existe en la base de datos");
+      res.redirect("/registro-usuarios");
+      return;
+    }
+
+    // Realiza la eliminación del documento
+    await contactRef.delete();
+    console.log("Usuario eliminado exitosamente");
+    res.redirect("/registro-usuarios");
+  } catch (error) {
+    console.error("Error eliminando el usuario:", error);
+    res.redirect("/registro-usuarios");
+  }
+});
+
+// Ruta para procesar la actualización de información de usuario (POST)
+// Ruta para mostrar la vista de edición de usuarios
+// Ruta para mostrar la vista de edición de usuarios
+// Ruta para mostrar la vista de edición de usuarios
+router.get("/edit-usuarios/:id", checkAuthentication, async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Obtén los datos del usuario desde Firestore
+    const userSnapshot = await db.collection("usuarioadmin").doc(userId).get();
+
+    if (!userSnapshot.exists) {
+      console.error("El usuario no existe en la base de datos");
+      res.redirect("/registro-usuarios");
+      return;
+    }
+
+    const userData = userSnapshot.data();
+
+    // Verifica si el usuario es un maestro
+    if (req.session.isMaster) {
+      // Si es un maestro, permite el acceso y muestra la vista de edición
+      res.render("edit-usuarios", { userData: userData, userId: userId });
+    } else {
+      // Si no es un maestro, redirige a la página de acceso denegado
+      res.redirect("/deny");
+    }
+  } catch (error) {
+    console.error("Error obteniendo datos del usuario:", error);
+    res.redirect("/registro-usuarios");
+  }
+});
+
+
+// Ruta para procesar la actualización de información de usuario (POST)
+router.post("/update-usuarios/:id", checkAuthentication, async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { usuario, password, master } = req.body;
+
+    // Verifica si el usuario existe en la base de datos antes de actualizar
+    const userRef = db.collection("usuarioadmin").doc(userId);
+    const userSnapshot = await userRef.get();
+
+    if (!userSnapshot.exists) {
+      console.error("El usuario no existe en la base de datos");
+      res.redirect("/registro-usuarios");
+      return;
+    }
+
+    // Define los datos actualizados del usuario
+    const updatedUserData = {
+      usuario: usuario,
+      master: master === "true",
+      // Otros campos que desees actualizar
+    };
+
+    // Si se proporcionó una nueva contraseña, la hasheamos y la actualizamos
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedUserData.contraseña = hashedPassword;
+    }
+
+    // Actualiza los datos del usuario en la base de datos
+    await userRef.update(updatedUserData);
+
+    console.log("Usuario actualizado exitosamente");
+
+    // Redirige al usuario a donde desees después de la edición
+    res.redirect("/registro-usuarios");
+  } catch (error) {
+    console.error("Error al editar el usuario:", error);
+    res.redirect("/registro-usuarios");
+  }
+});
+
 module.exports = router;

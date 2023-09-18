@@ -112,7 +112,6 @@ Handlebars.registerHelper("ifCondIcono", function (v1, operator, v2, options) {
 
 
 // Ruta para actualizar un servicio básico
-// Ruta para actualizar un servicio básico
 router.post('/update-contact/:id', async (req, res) => {
     try {
         const contactId = req.params.id;

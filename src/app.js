@@ -72,6 +72,8 @@ const avanzadosRouter = require("./routes/avanzados");
 //Usuarios
 const usuariosRouter = require("./routes/usuario-paciente");
 const enfermerasRoutes = require("./routes/usuario-enfermera");
+const editUserRoutes = require("./routes/registro-usuarios");
+
 //Registro
 // Middleware de autenticación para rutas protegidas
 //Servicios
@@ -85,6 +87,8 @@ app.use("/registro-usuarios", checkAuthentication, registroRouter);
 app.use("/usuario-enfermera", checkAuthentication, enfermerasRoutes);
 //Registro
 app.use("/registro-usuarios", checkAuthentication, registroRouter); // Usa tu enrutador para esta ruta
+//Actualizar user
+app.use("/edit-usuarios", checkAuthentication, editUserRoutes); // Usa tu enrutador para esta ruta
 
 // Usar los routers en las rutas correspondientes
 app.use("/servicios-basicos", basicosRouter);
