@@ -45,4 +45,13 @@ body {
 
 }
 
+.logoHadal{
+    width: 250px;
+    height: 250px;
+}
+
+.cardRedondo{
+    border-radius: 20px;
+}
+
 /* Otros estilos personalizados según tus necesidades */

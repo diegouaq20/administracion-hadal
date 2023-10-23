@@ -24,3 +24,11 @@
 }
 
 /* Otros estilos personalizados según tus necesidades */
+.current-user-cell {
+    color: red; /* O el color que prefieras */
+    font-weight: bold; /* Puedes agregar negrita u otros estilos según tus preferencias */
+}
+
+.current-user{
+    font-weight: bold;
+}

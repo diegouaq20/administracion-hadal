@@ -17,11 +17,12 @@
     <link rel="stylesheet" href="/main.css">
 
 </head>
-
 <body>
     <div class="container">
         <div class="row justify-content-end">
             <div class="col-md-6">
+                {{!-- <label for="">Usuario Actual: {{userName}}</label> --}}
+
                 <!-- Columna para la tabla en el lado izquierdo -->
                 <table id="miTabla" class="table table-container">
                     <thead>
@@ -34,7 +35,13 @@
                     <tbody>
                         {{#each allUsers}}
                         <tr>
-                            <td>{{userData.usuario}}</td>
+                          <td>
+                                {{#if (eq this.userData.usuario ../userName)}}
+                                <span class="current-user">Usuario actual:</span> <span class="current-user-cell">{{this.userData.usuario}}</span>
+                                {{else}}
+                                {{this.userData.usuario}}
+                                {{/if}}
+                            </td>
                             <td class="title-bold">
                                 {{#if this.userData.master}}
                                 Super Administrador
@@ -54,12 +61,11 @@
                                     </form>
                                 </div>
                             </td>
-
-
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
+
 
             </div>
             <div class="col-md-6"> <!-- Columna para el formulario en el lado derecho -->
@@ -85,7 +91,7 @@
                             <div class="form-group">
                                 <label class="title-bold" for="master">Tipo de usuario:</label>
                                 <select class="form-control" id="master" name="master" class="form-control">
-                                    <option value="false">Administradorrr</option>
+                                    <option value="false">Administrador</option>
                                     <option value="true">Super-Administrador</option>
                                 </select>
                             </div>
@@ -101,6 +107,11 @@
 </body>
 
 <script>
+      // Estilos para el usuario actual
+        $(document).ready(function () {
+            $('.current-user-cell').css('color', 'red');
+            // Agrega cualquier otro estilo necesario aquí
+        });
     //Datatables
     $(document).ready(function () {
         $('#miTabla').DataTable({

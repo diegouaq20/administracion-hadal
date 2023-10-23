@@ -1,12 +1,16 @@
-<div class="container-fluid bg-custom-primary text-white text-center">
+{{!-- <div class="container-fluid bg-custom-primary text-white text-center">
     <h2 class="py-3">HADAL Administración</h2>
-</div>
+</div> --}}
 
 <div class="container align-middle">
-    <div class="card">
-        <div class="card-header bg-custom-primary text-white text-center">
-            <h2>Inicio de Sesión</h2>
+        <div class="text-center">
+            <img class="logoHadal" src="logo.svg" alt="Logo Hadal"/>
         </div>
+    <div class="card cardRedondo">
+        {{!-- <div class="card-header bg-custom-primary text-white text-center">
+            <h2>Inicio de Sesión</h2>
+        </div> --}}
+
         <div class="card-body">
             <form action="/login" method="POST">
                 <div class="form-group">
@@ -14,7 +18,7 @@
                     <input type="text" id="username" name="username" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Contraseña:</label>
+                    <label for "password">Contraseña:</label>
                     <input type="password" id="password" name="password" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-custom-primary btn-block">Iniciar Sesión</button>
