@@ -47,6 +47,15 @@
 
 }
 
+.logoHadal{
+    width: 250px;
+    height: 250px;
+}
+
+.cardRedondo{
+    border-radius: 20px;
+}
+
 /* Otros estilos personalizados según tus necesidades */
 
 .admintitle {
@@ -76,7 +85,3 @@
     font-weight: 700;
 }
 
-.logoHadal{
-    width: 150px;
-    height: 150px;
-}

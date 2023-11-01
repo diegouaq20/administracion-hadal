@@ -38,7 +38,6 @@ router.post("/registro-usuarios", async (req, res) => {
 });
 
 // Ruta para mostrar la vista de registro de usuarios
-// Ruta para mostrar la vista de registro de usuarios
 router.get("/", checkAuthentication, async (req, res) => {
   try {
     if (req.session.isMaster) {
@@ -64,6 +63,7 @@ router.get("/", checkAuthentication, async (req, res) => {
     res.status(500).send("Error al obtener usuarios");
   }
 });
+
 
 //Eliminar usuario
 // Ruta para eliminar usuario (ahora maneja una solicitud POST)

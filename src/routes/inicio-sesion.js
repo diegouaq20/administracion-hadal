@@ -2,6 +2,20 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const { db } = require("./firebase"); // Asegúrate de tener la ruta correcta
+const { use } = require("passport");
+const Swal = require('sweetalert2');
+
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
 
 // Define la función checkAuthentication antes de su uso
 function checkAuthentication(req, res, next) {
@@ -28,18 +42,26 @@ router.post("/login", async (req, res) => {
     .where("usuario", "==", username)
     .get();
 
+    
+
   if (userSnapshot.empty) {
     // Usuario no encontrado
     res.render("inicio-sesion", {
       layout: "main-inicio-sesion",
-      error: "Usuario no encontrado",
+      
     });
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Signed in successfully'
+    })
+
     return;
   }
 
   // Obtener el usuario de Firestore
   const user = userSnapshot.docs[0].data();
-
+  console.log("Usuario autenticado:", user.usuario)
   // Verificar la contraseña utilizando bcrypt
   const passwordMatch = await bcrypt.compare(password, user.contraseña);
 
@@ -57,12 +79,14 @@ router.post("/login", async (req, res) => {
     req.session.isAuthenticated = true; // Establecer la sesión como autenticada
     req.session.isMaster = true; // Establecer la variable isMaster como verdadera para superadministradores
     console.log("Superadministrador autenticado:", req.session.isAuthenticated);
+    req.session.userName = user.usuario;
     res.redirect("/"); // Redirigir a la vista de registro de usuarios
   } else {
     // Si no es superadministrador, aún debe tener isAuthenticated como verdadero
     req.session.isAuthenticated = true;
     req.session.isMaster = false; // Establecer la variable isMaster como falsa para no superadministradores
     console.log("Usuario autenticado:", req.session.isAuthenticated);
+    req.session.userName = user.usuario;
     res.redirect("/"); // Redirigir a otra vista que desees para usuarios no superadministradores
   }
 });

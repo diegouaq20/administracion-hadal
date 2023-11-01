@@ -80,3 +80,7 @@ body {
     width: 100%; 
     text-align: center;
 }
+
+.texto-light{
+    font-weight: 500px;
+}
