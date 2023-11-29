@@ -3,15 +3,31 @@ const router = express.Router();
 const Handlebars = require("handlebars");
 const { db } = require("./firebase"); // Importa la instancia de Firestore correctamente
 
-Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
   switch (operator) {
-      case '===':
-          return (v1 === v2) ? options.fn(this) : options.inverse(this);
-      case '!==':
-          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-      // Agrega más operadores según sea necesario
+    case '===':
+      return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case '!==':
+      return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+    // Agrega más operadores según sea necesario
   }
 });
+
+Handlebars.registerHelper("truncateDecimal", function (value) {
+  // Verificar si es un número
+  if (typeof value === "number") {
+    // Truncar a dos decimales
+    return Math.trunc(value * 100) / 100;
+  } else {
+    // Si no es un número, devolver el valor original
+    return value;
+  }
+});
+
+Handlebars.registerHelper("multiply", function (value, multiplier) {
+  return value * multiplier;
+});
+
 // Ruta para mostrar la lista de usuarios
 router.get("/", async (req, res) => {
   try {
@@ -33,17 +49,30 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const userId = req.params.id;
+
     // Obtener información de usuario por ID desde Firestore
-    const userSnapshot = await db
-      .collection("usuarioenfermera")
-      .doc(userId)
-      .get();
+    const userSnapshot = await db.collection("usuarioenfermera").doc(userId).get();
     const userData = userSnapshot.exists
       ? { id: userSnapshot.id, ...userSnapshot.data() }
       : null;
 
     if (userData) {
-      res.render("edit-enfermeras", { user: userData }); // Asegúrate de pasar el ID como parte del objeto
+      // Obtener todos los documentos de la colección 'historial' para la enfermera actual
+      const historialSnapshot = await db.collection("historial").where("enfermeraId", "==", userId).get();
+      
+      // Mapear los documentos de historial
+      const historialData = historialSnapshot.docs.map((doc, index) => ({
+        id: doc.id,
+        historialData: { ...doc.data(), numeroFila: index + 1 },
+      }));
+
+      // Calcular el número total de filas
+      const totalFilas = historialData.length;
+
+      // Calcular la sumatoria total de ganancias
+      const sumaTotal = historialData.reduce((total, item) => total + item.historialData.total * 0.75, 0);
+
+      res.render("edit-enfermeras", { user: userData, historial: historialData, totalFilas, sumaTotal });
     } else {
       res.status(404).send("Usuario no encontrado");
     }
@@ -52,6 +81,8 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Error al obtener información del usuario");
   }
 });
+
+
 
 // Ruta para anular un documento
 router.post("/anular-documento/:id/:tipoDocumento", async (req, res) => {
