@@ -32,20 +32,18 @@
         <thead>
             <tr>
                 <th>Foto</th>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Categoría</th>
                 <th>Acceso</th>
-                <th>Acciones</th>
+                <th>Detalles</th>
             </tr>
         </thead>
         <tbody>
             {{#each allUsers}}
             <tr data-category="{{this.userData.categoria}}">
-                <td><img class="imagen-usuario" src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50">
+                <td><img class="imagen-usuario" src="{{this.userData.photoUrl}}" width="50">
                 </td>
-                <td><a href="/usuario-enfermera/{{id}}">{{id}}</a></td>
                 <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
                 <td>{{this.userData.email}}</td>
                 <td>{{this.userData.categoria}}</td>
@@ -63,6 +61,9 @@
             {{/each}}
         </tbody>
     </table>
+
+            <!-- Agrega un espacio al final de la página -->
+        <div style="height: 40px;"></div>
 
 </body>
 
