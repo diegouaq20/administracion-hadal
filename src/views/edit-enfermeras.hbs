@@ -257,7 +257,7 @@
                                     <td>{{this.historialData.tipoCategoria}}</td>
                                     <td>{{this.historialData.tipoServicio}}</td>
                                     <td>${{truncateDecimal (multiply this.historialData.total 0.75)}}</td>
-                                    <td>{{this.historialData.pacienteId}}</td>
+                                    <td><a href="/usuario-paciente/{{this.historialData.pacienteId}}">{{this.historialData.nombrePaciente}}</a></td>
                                     <!-- Añade más celdas según sea necesario -->
                                 </tr>
                                 {{/each}}

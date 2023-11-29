@@ -61,10 +61,16 @@ router.get("/:id", async (req, res) => {
       const historialSnapshot = await db.collection("historial").where("enfermeraId", "==", userId).get();
       
       // Mapear los documentos de historial
-      const historialData = historialSnapshot.docs.map((doc, index) => ({
-        id: doc.id,
-        historialData: { ...doc.data(), numeroFila: index + 1 },
-      }));
+      const historialData = await Promise.all(
+        historialSnapshot.docs.map(async (doc, index) => {
+          const historial = { id: doc.id, historialData: { ...doc.data(), numeroFila: index + 1 } };
+
+          // Obtener nombre del paciente
+          historial.historialData.nombrePaciente = await getNombrePaciente(historial.historialData.pacienteId);
+
+          return historial;
+        })
+      );
 
       // Calcular el número total de filas
       const totalFilas = historialData.length;
@@ -82,7 +88,20 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
+//Funcion para obtener el id del paciente
+async function getNombrePaciente(pacienteId) {
+  try {
+    const pacienteSnapshot = await db.collection("usuariopaciente").doc(pacienteId).get();
+    if (pacienteSnapshot.exists) {
+      const pacienteData = pacienteSnapshot.data();
+      return `${pacienteData.nombre} ${pacienteData.primerApellido}`;
+    }
+    return "Paciente no encontrado";
+  } catch (error) {
+    console.error("Error obteniendo nombre del paciente:", error);
+    return "Error al obtener nombre del paciente";
+  }
+}
 
 // Ruta para anular un documento
 router.post("/anular-documento/:id/:tipoDocumento", async (req, res) => {
