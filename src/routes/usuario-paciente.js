@@ -46,7 +46,25 @@ router.get("/:id", async (req, res) => {
       : null;
 
     if (userData) {
-      res.render("edit-pacientes", { user: userData }); // Asegúrate de pasar el ID como parte del objeto
+      // Obtener todos los documentos de la colección 'historial'
+      const historialSnapshot = await db.collection("historial").where("pacienteId", "==", userId).get();
+
+      // Mapear los documentos de historial
+      const historialData = await Promise.all(
+        historialSnapshot.docs.map(async (doc, index) => {
+          const historial = { id: doc.id, historialData: { ...doc.data(), numeroFila: index + 1 } };
+
+          // Obtener nombre de la enfermera
+          historial.historialData.nombreEnfermera = await getNombreEnfermera(historial.historialData.enfermeraId);
+
+          return historial;
+        })
+      );
+
+      // Calcular el número total de filas
+      const totalFilas = historialData.length;
+
+      res.render("edit-pacientes", { user: userData, historial: historialData, totalFilas }); // Asegúrate de pasar el ID como parte del objeto
     } else {
       res.status(404).send("Usuario no encontrado");
     }
@@ -55,6 +73,21 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Error al obtener información del usuario");
   }
 });
+
+//Funcion para obtener el id del enfermero
+async function getNombreEnfermera(enfermeraId) {
+  try {
+    const enfermeraSnapshot = await db.collection("usuarioenfermera").doc(enfermeraId).get();
+    if (enfermeraSnapshot.exists) {
+      const enfermeraData = enfermeraSnapshot.data();
+      return `${enfermeraData.nombre} ${enfermeraData.primerApellido}`;
+    }
+    return "Enfermera no encontrada";
+  } catch (error) {
+    console.error("Error obteniendo nombre del enfermero:", error);
+    return "Error al obtener nombre del enfermero";
+  }
+}
 
 // Ruta para anular un documento
 router.post("/anular-documento/:id/:tipoDocumento", async (req, res) => {

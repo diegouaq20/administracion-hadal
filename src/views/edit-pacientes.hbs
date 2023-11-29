@@ -142,7 +142,67 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- tabla servicios -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Servicios solicitados</h3>
+                    </div>
+                    <div class="card-body">
+                        {{#if historial.length}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Total de servicios: {{totalFilas}}</p>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Servicio</th>
+                                    <th>Categoria</th>
+                                    <th>Tipo</th>
+                                    <th>Atendió</th>
+                                    <!-- Agrega más encabezados según sea necesario -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each historial}}
+                                <tr>
+                                    <td>{{this.historialData.numeroFila}}</td>
+                                    <td>{{this.historialData.dia}} <br>
+                                        {{this.historialData.diaDelMes}} de {{this.historialData.mes}} de
+                                        {{this.historialData.ano}}</td>
+                                    <td>{{this.historialData.hora}}</td>
+                                    <td>{{this.historialData.servicio}}</td>
+                                    <td>{{this.historialData.tipoCategoria}}</td>
+                                    <td>{{this.historialData.tipoServicio}}</td>
+                                    <td><a
+                                            href="/usuario-enfermera/{{this.historialData.enfermeraId}}">{{this.historialData.nombreEnfermera}}</a>
+                                    </td>
+                                    <!-- Añade más celdas según sea necesario -->
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        {{else}}
+                        <p>No hay historial disponible</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agrega un espacio al final de la página -->
+        <div style="height: 40px;"></div>
+
+    </div> <!-- Cierre del contenedor principal -->
+
+
     <script>
         function anularDocumento(userId, tipoDocumento) {
             if (confirm("¿Estás seguro de que deseas anular este documento?")) {
