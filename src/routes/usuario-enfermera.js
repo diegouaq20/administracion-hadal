@@ -31,12 +31,24 @@ Handlebars.registerHelper("multiply", function (value, multiplier) {
 // Ruta para mostrar la lista de usuarios
 router.get("/", async (req, res) => {
   try {
-    // Obtener datos de la colección 'usuariopaciente' desde Firestore
+    // Obtener datos de la colección 'usuarioenfermera' desde Firestore
     const usersSnapshot = await db.collection("usuarioenfermera").get();
-    const allUsers = usersSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      userData: doc.data(),
-    }));
+    const allUsers = [];
+
+    for (const doc of usersSnapshot.docs) {
+      const userData = doc.data();
+      const userId = doc.id;
+
+      // Obtener el total de servicios para esta enfermera
+      const serviciosSnapshot = await db.collection("historial").where("enfermeraId", "==", userId).get();
+      const totalServicios = serviciosSnapshot.size;
+
+      allUsers.push({
+        id: userId,
+        userData: userData,
+        totalServicios: totalServicios,
+      });
+    }
 
     res.render("usuario-enfermera", { allUsers });
   } catch (error) {
@@ -44,6 +56,7 @@ router.get("/", async (req, res) => {
     res.status(500).send("Error al obtener enfermeras");
   }
 });
+
 
 // Ruta para ver información completa de un usuario
 router.get("/:id", async (req, res) => {

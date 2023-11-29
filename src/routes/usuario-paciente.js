@@ -19,10 +19,22 @@ router.get("/", async (req, res) => {
   try {
     // Obtener datos de la colección 'usuariopaciente' desde Firestore
     const usersSnapshot = await db.collection("usuariopaciente").get();
-    const allUsers = usersSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      userData: doc.data(),
-    }));
+    const allUsers = []
+
+    for (const doc of usersSnapshot.docs) {
+      const userData = doc.data();
+      const userId = doc.id;
+
+      // Obtener el total de servicios para esta enfermera
+      const serviciosSnapshot = await db.collection("historial").where("pacienteId", "==", userId).get();
+      const totalServicios = serviciosSnapshot.size;
+
+      allUsers.push({
+        id: userId,
+        userData: userData,
+        totalServicios: totalServicios,
+      });
+    }
 
     res.render("usuario-paciente", { allUsers });
     console.log("Usuarios recuperados de Firestore:", allUsers);
