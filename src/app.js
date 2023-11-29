@@ -37,6 +37,7 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 
 function checkAuthentication(req, res, next) {
+
   if (req.session.isAuthenticated) {
     // Si el usuario está autenticado, permite continuar
     return next();
@@ -49,20 +50,26 @@ function checkAuthentication(req, res, next) {
 // Rutas estáticas
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", checkAuthentication, (req, res) => {
-  res.render("index"); // Renderiza la vista index.hbs
+app.get("/", (req, res) => {
+  if (req.session.isAuthenticated) {
+    res.render("index", { userName: req.session.userName }); // Pasar userName a la vista
+  } else {
+    res.redirect("/inicio-sesion");
+  }
 });
+
+// En tu archivo app.js
+app.use((req, res, next) => {
+  res.locals.userName = req.session.userName || null;
+  next();
+});
+
 
 app.use("/", inicioSesionRoutes.router); // Rutas relacionadas con inicio de sesión
 
 app.get("/inicio-sesion", function (req, res) {
   res.render("inicio-sesion", { layout: "main-inicio-sesion" });
 });
-
-//LINEA MALDITA NUNCA DESCOMENTAR
-// app.get("/registro-usuarios", checkAuthentication, function (req, res) {
-//   res.render("registro-usuarios");
-// });
 
 // Importar los routers
 //Servicios
@@ -82,7 +89,6 @@ app.use("/servicios-intermedios", checkAuthentication, intermediosRouter);
 app.use("/servicios-avanzados", checkAuthentication, avanzadosRouter);
 //Usuarios
 app.use("/usuario-paciente", checkAuthentication, usuariosRouter);
-app.use("/registro-usuarios", checkAuthentication, registroRouter);
 
 app.use("/usuario-enfermera", checkAuthentication, enfermerasRoutes);
 //Registro
@@ -119,18 +125,6 @@ app.post("/logout", function (req, res) {
     // Redirige al usuario a la página de inicio de sesión u otra página deseada
     res.redirect("/inicio-sesion");
   });
-});
-
-app.post("/iniciar-sesion", (req, res) => {
-  // Aquí verificas las credenciales del usuario
-  if (credencialesSonValidas) {
-    req.session.isAuthenticated = true; // Establece la autenticación como verdadera
-    // Otro código de autenticación...
-    res.redirect("/"); // Redirige a la página principal u otra página
-  } else {
-    // Código para el caso en que las credenciales sean incorrectas
-    res.redirect("/inicio-sesion"); // Puede redirigir de nuevo a la página de inicio de sesión
-  }
 });
 
 // Puerto del servidor

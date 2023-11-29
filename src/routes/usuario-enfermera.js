@@ -3,24 +3,52 @@ const router = express.Router();
 const Handlebars = require("handlebars");
 const { db } = require("./firebase"); // Importa la instancia de Firestore correctamente
 
-Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
   switch (operator) {
-      case '===':
-          return (v1 === v2) ? options.fn(this) : options.inverse(this);
-      case '!==':
-          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-      // Agrega más operadores según sea necesario
+    case '===':
+      return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case '!==':
+      return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+    // Agrega más operadores según sea necesario
   }
 });
+
+Handlebars.registerHelper("truncateDecimal", function (value) {
+  // Verificar si es un número
+  if (typeof value === "number") {
+    // Truncar a dos decimales
+    return Math.trunc(value * 100) / 100;
+  } else {
+    // Si no es un número, devolver el valor original
+    return value;
+  }
+});
+
+Handlebars.registerHelper("multiply", function (value, multiplier) {
+  return value * multiplier;
+});
+
 // Ruta para mostrar la lista de usuarios
 router.get("/", async (req, res) => {
   try {
-    // Obtener datos de la colección 'usuariopaciente' desde Firestore
+    // Obtener datos de la colección 'usuarioenfermera' desde Firestore
     const usersSnapshot = await db.collection("usuarioenfermera").get();
-    const allUsers = usersSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      userData: doc.data(),
-    }));
+    const allUsers = [];
+
+    for (const doc of usersSnapshot.docs) {
+      const userData = doc.data();
+      const userId = doc.id;
+
+      // Obtener el total de servicios para esta enfermera
+      const serviciosSnapshot = await db.collection("historial").where("enfermeraId", "==", userId).get();
+      const totalServicios = serviciosSnapshot.size;
+
+      allUsers.push({
+        id: userId,
+        userData: userData,
+        totalServicios: totalServicios,
+      });
+    }
 
     res.render("usuario-enfermera", { allUsers });
   } catch (error) {
@@ -29,21 +57,41 @@ router.get("/", async (req, res) => {
   }
 });
 
+
 // Ruta para ver información completa de un usuario
 router.get("/:id", async (req, res) => {
   try {
     const userId = req.params.id;
+
     // Obtener información de usuario por ID desde Firestore
-    const userSnapshot = await db
-      .collection("usuarioenfermera")
-      .doc(userId)
-      .get();
+    const userSnapshot = await db.collection("usuarioenfermera").doc(userId).get();
     const userData = userSnapshot.exists
       ? { id: userSnapshot.id, ...userSnapshot.data() }
       : null;
 
     if (userData) {
-      res.render("edit-enfermeras", { user: userData }); // Asegúrate de pasar el ID como parte del objeto
+      // Obtener todos los documentos de la colección 'historial' para la enfermera actual
+      const historialSnapshot = await db.collection("historial").where("enfermeraId", "==", userId).get();
+      
+      // Mapear los documentos de historial
+      const historialData = await Promise.all(
+        historialSnapshot.docs.map(async (doc, index) => {
+          const historial = { id: doc.id, historialData: { ...doc.data(), numeroFila: index + 1 } };
+
+          // Obtener nombre del paciente
+          historial.historialData.nombrePaciente = await getNombrePaciente(historial.historialData.pacienteId);
+
+          return historial;
+        })
+      );
+
+      // Calcular el número total de filas
+      const totalFilas = historialData.length;
+
+      // Calcular la sumatoria total de ganancias
+      const sumaTotal = historialData.reduce((total, item) => total + item.historialData.total * 0.75, 0);
+
+      res.render("edit-enfermeras", { user: userData, historial: historialData, totalFilas, sumaTotal });
     } else {
       res.status(404).send("Usuario no encontrado");
     }
@@ -52,6 +100,21 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Error al obtener información del usuario");
   }
 });
+
+//Funcion para obtener el id del paciente
+async function getNombrePaciente(pacienteId) {
+  try {
+    const pacienteSnapshot = await db.collection("usuariopaciente").doc(pacienteId).get();
+    if (pacienteSnapshot.exists) {
+      const pacienteData = pacienteSnapshot.data();
+      return `${pacienteData.nombre} ${pacienteData.primerApellido}`;
+    }
+    return "Paciente no encontrado";
+  } catch (error) {
+    console.error("Error obteniendo nombre del paciente:", error);
+    return "Error al obtener nombre del paciente";
+  }
+}
 
 // Ruta para anular un documento
 router.post("/anular-documento/:id/:tipoDocumento", async (req, res) => {

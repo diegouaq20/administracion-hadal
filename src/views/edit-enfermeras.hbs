@@ -46,13 +46,15 @@
                                         }}selected{{/ifCondEdit}}>Avanzado</option>
                                 </select>
                                 <p><label for="estadoUsuario" class="form-label">Estado:</label>
-                                <select class="form-select rounded-pill py-1 px-3 custom-bg-color" id="estadoUsuario"
-                                    onchange="actualizarEstadoEnfermera('{{user.id}}', this.value)">
-                                    <option value="bloqueado" {{#ifCondEdit user.acceso '===' 'bloqueado'
-                                        }}selected{{/ifCondEdit}}>Bloqueado</option>
-                                    <option value="desbloqueado" {{#ifCondEdit user.acceso '===' 'desbloqueado'
-                                        }}selected{{/ifCondEdit}}>Permitido</option>
-                                </select></p>
+                                    <select class="form-select rounded-pill py-1 px-3 custom-bg-color"
+                                        id="estadoUsuario"
+                                        onchange="actualizarEstadoEnfermera('{{user.id}}', this.value)">
+                                        <option value="bloqueado" {{#ifCondEdit user.acceso '===' 'bloqueado'
+                                            }}selected{{/ifCondEdit}}>Bloqueado</option>
+                                        <option value="desbloqueado" {{#ifCondEdit user.acceso '===' 'desbloqueado'
+                                            }}selected{{/ifCondEdit}}>Permitido</option>
+                                    </select>
+                                </p>
 
                                 <!-- Agrega más campos aquí -->
                             </div>
@@ -118,7 +120,8 @@
                                         <a href="{{user.cedulaProfecional}}" target="_blank" class="btn btn-primary">Ver
                                             Documento</a>
                                         <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'cedulaProfecional')">Anular Documento</button>
+                                            onclick="anularDocumento('{{user.id}}', 'cedulaProfecional')">Anular
+                                            Documento</button>
                                         {{else}}
                                         <button class="btn btn-primary" disabled>Ver Documento</button>
                                         <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
@@ -133,8 +136,8 @@
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.tituloProfecional}}
-                                        <a href="{{user.tituloProfecional}}" target="_blank"
-                                            class="btn btn-primary">Ver Documento</a>
+                                        <a href="{{user.tituloProfecional}}" target="_blank" class="btn btn-primary">Ver
+                                            Documento</a>
                                         <button class="btn btn-danger mt-2"
                                             onclick="anularDocumento('{{user.id}}', 'tituloProfecional')">Anular
                                             Documento</button>
@@ -171,8 +174,8 @@
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.referenciaUno}}
-                                        <a href="{{user.referenciaUno}}" target="_blank"
-                                            class="btn btn-primary">Ver Documento</a>
+                                        <a href="{{user.referenciaUno}}" target="_blank" class="btn btn-primary">Ver
+                                            Documento</a>
                                         <button class="btn btn-danger mt-2"
                                             onclick="anularDocumento('{{user.id}}', 'referenciaUno')">Anular
                                             Documento</button>
@@ -190,8 +193,8 @@
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.referenciaDos}}
-                                        <a href="{{user.referenciaDos}}" target="_blank"
-                                            class="btn btn-primary">Ver Documento</a>
+                                        <a href="{{user.referenciaDos}}" target="_blank" class="btn btn-primary">Ver
+                                            Documento</a>
                                         <button class="btn btn-danger mt-2"
                                             onclick="anularDocumento('{{user.id}}', 'referenciaDos')">Anular
                                             Documento</button>
@@ -210,7 +213,71 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- tabla servicios -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-center">Servicios completados</h3>
+                    </div>
+                    <div class="card-body">
+                        {{#if historial.length}}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Total de servicios: {{totalFilas}}</p>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <p>Ganancias totales: ${{truncateDecimal sumaTotal}}</p>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Servicio</th>
+                                    <th>Categoria</th>
+                                    <th>Tipo</th>
+                                    <th>Total</th>
+                                    <th>Paciente</th>
+                                    <!-- Agrega más encabezados según sea necesario -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each historial}}
+                                <tr>
+                                    <td>{{this.historialData.numeroFila}}</td>
+                                    <td>{{this.historialData.dia}} <br>
+                                        {{this.historialData.diaDelMes}} de {{this.historialData.mes}} de
+                                        {{this.historialData.ano}}</td>
+                                    <td>{{this.historialData.hora}}</td>
+                                    <td>{{this.historialData.servicio}}</td>
+                                    <td>{{this.historialData.tipoCategoria}}</td>
+                                    <td>{{this.historialData.tipoServicio}}</td>
+                                    <td>${{truncateDecimal (multiply this.historialData.total 0.75)}}</td>
+                                    <td><a href="/usuario-paciente/{{this.historialData.pacienteId}}">{{this.historialData.nombrePaciente}}</a></td>
+                                    <!-- Añade más celdas según sea necesario -->
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        {{else}}
+                        <p>No hay historial disponible</p>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agrega un espacio al final de la página -->
+        <div style="height: 40px;"></div>
+
+    </div> <!-- Cierre del contenedor principal -->
+
+
+
     <script>
 
         function actualizarCategoriaEnfermera(userId, nuevaCategoria) {
