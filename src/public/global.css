@@ -1,0 +1,14 @@
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+
+:root {
+    /* fonts */
+    --font-roboto: Roboto;}
+
+.texto-bold {
+    font-weight: 700; /* Bold */}
+
+.texto-black {
+        font-weight: 900; /* Black */}

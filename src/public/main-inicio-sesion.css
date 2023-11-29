@@ -6,9 +6,10 @@
     position: absolute;
 }
 
-body {
+.body {
     height: 100vh;
     position: relative;
+    background-color: #F4FFFE;    
 }
 
 /* Centrar verticalmente el formulario */
@@ -19,6 +20,7 @@ body {
     justify-content: center;
     position: relative;
     height: 100vh;
+
 }
 
 /* Estilo para la barra superior azul */
@@ -55,3 +57,35 @@ body {
 }
 
 /* Otros estilos personalizados según tus necesidades */
+
+.admintitle {
+    color: var(--primario-1);
+    font-weight: 500;
+    color: #235365;
+    font-size: 24px;}
+
+
+    .texto-black {
+        font-weight: 700; /* Black */
+      }
+
+.custom-shadow {
+        /*border: 1px solid black;*/
+        box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 30px;
+    }
+
+.cardborde{
+    border: none;
+    padding:    30px;
+}
+
+.btnfont{
+    font-weight: 700;
+}
+
+.logoHadal{
+    width: 150px;
+    height: 150px;
+}
