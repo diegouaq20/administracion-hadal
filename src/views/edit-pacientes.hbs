@@ -63,15 +63,32 @@
                         {{#if user}}
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="card document-card">
+                                <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br>INE</h4>
+                                        <h4 class="text-center"> <br>INE FRONTAL</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.ine}}
                                         <a href="{{user.ine}}" target="_blank" class="btn btn-primary">Ver Documento</a>
                                         <button class="btn btn-danger mt-2"
                                             onclick="anularDocumento('{{user.id}}', 'ine')">Anular Documento</button>
+                                        {{else}}
+                                        <button class="btn btn-primary" disabled>Ver Documento</button>
+                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card document-card">
+                                    <div class="card-header">
+                                        <h4 class="text-center"> <br>INE TRASERO</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        {{#if user.ine2}}
+                                        <a href="{{user.ine2}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                        <button class="btn btn-danger mt-2"
+                                            onclick="anularDocumento('{{user.id}}', 'ine2')">Anular Documento</button>
                                         {{else}}
                                         <button class="btn btn-primary" disabled>Ver Documento</button>
                                         <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
@@ -118,7 +135,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center">Comprobante de Domicilio</h4>
+                                        <h4 class="text-center two-line-text">Comprobante de Domicilio</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.comprobanteDomicilio}}
