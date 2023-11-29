@@ -67,37 +67,48 @@ router.get('/delete-contact/:id', async (req, res) => {
 
 
 // Ruta para editar un servicio básico
+// Ruta para editar un servicio básico
 router.get('/edit-contact/:id', async (req, res) => {
     try {
         const contactId = req.params.id;
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         const docSnapshot = await contactRef.get();
-        const contactData = docSnapshot.exists ? docSnapshot.data() : null;
 
-        // Obtener las URL de los iconos desde Firebase Storage
-        const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
-        const iconUrls = files.map(file => {
-            const fileName = file.name.replace('Basicos/', '');
-            if (fileName) {
-                return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
-            }
-            return null;
-        }).filter(url => url !== null);
+        if (docSnapshot.exists) {
+            const contactData = docSnapshot.data();
 
-        res.render('edit-basicos', { contact: contactData, contactId, iconUrls });
+            // Obtener las URL de los iconos desde Firebase Storage
+            const [files] = await storage.bucket().getFiles({ prefix: 'Basicos/' });
+            const iconUrls = files.map(file => {
+                const fileName = file.name.replace('Basicos/', '');
+                if (fileName) {
+                    return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
+                }
+                return null;
+            }).filter(url => url !== null);
 
+            res.render('edit-basicos', { contact: contactData, contactId, iconUrls, selectedIcon: contactData.icono });
+        } else {
+            // Manejo de caso en el que el documento no existe
+            res.status(404).send('El servicio no existe.');
+        }
     } catch (error) {
         console.error('Error obteniendo el servicio para editar:', error);
         res.redirect('/servicios-basicos');
     }
 });
 
-Handlebars.registerHelper('ifCond', function(v1, v2, options) {
-    if (v1 === v2) {
-        return options.fn(this);
+
+Handlebars.registerHelper("ifCondIcono", function (v1, operator, v2, options) {
+    if (typeof v1 !== 'undefined') {
+      switch (operator) {
+        case "===":
+          return v1 === v2 ? options.fn(this) : options.inverse(this);
+        // Agrega más casos para otros operadores si es necesario
+      }
     }
-    return options.inverse(this);
-});
+  });
+  
 
 
 // Ruta para actualizar un servicio básico
@@ -106,12 +117,17 @@ router.post('/update-contact/:id', async (req, res) => {
         const contactId = req.params.id;
         const updatedContact = {
             descripcion: req.body.descripcion,
-            icono: req.body.icono,
             material: req.body.material,
             precio: req.body.precio,
             procedimiento: req.body.procedimiento,
             tiempo: req.body.tiempo,
         };
+
+        // Verificar si se ha seleccionado un nuevo icono
+        if (req.body.icono) {
+            updatedContact.icono = req.body.icono;
+        }
+
         const contactRef = db.collection('serviciosbasicos').doc(contactId);
         await contactRef.set(updatedContact, { merge: true });
         res.redirect('/servicios-basicos');
@@ -120,5 +136,6 @@ router.post('/update-contact/:id', async (req, res) => {
         res.redirect('/servicios-basicos');
     }
 });
+
 
 module.exports = router;

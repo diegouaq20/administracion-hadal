@@ -1,0 +1,34 @@
+
+/* Estilo para la barra superior azul */
+.bg-custom-primary {
+    background-color: #1BC0B2;
+    /* Cambia este color según tus preferencias */
+    color: #fff;
+    /* Color del texto en la barra */
+}
+
+/* Estilo para el botón de Iniciar Sesión */
+.btn-custom-primary {
+    background-color: #1BC0B2;
+    /* Cambia este color según tus preferencias */
+    border-color: #1BC0B2;
+    color: #fff;
+}
+
+.btn-custom-primary:hover {
+    background-color: #15908f;
+    /* Cambia el color al pasar el mouse si lo deseas */
+    border-color: #15908f;
+    color: #fff;
+
+}
+
+/* Otros estilos personalizados según tus necesidades */
+.current-user-cell {
+    color: red; /* O el color que prefieras */
+    font-weight: bold; /* Puedes agregar negrita u otros estilos según tus preferencias */
+}
+
+.current-user{
+    font-weight: bold;
+}

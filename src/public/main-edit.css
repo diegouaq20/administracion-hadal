@@ -17,20 +17,24 @@
 }
 
 .image-option input[type="radio"]:checked+.icon-option {
-    border: 2px solid #1BC0B2;
+    border-bottom: 2px solid #1BC0B2;
+    /* Solo se aplica un borde en la parte inferior */
+    border-radius: 0;
+    /* Remueve cualquier borde redondeado */
 }
 
 .icon-option {
     max-width: 50px;
     max-height: 50px;
     margin: 5px;
-    border: 2px solid transparent;
+    padding-bottom: 2px;
+    /* Añade espacio para el borde inferior */
     transition: border-color 0.3s ease-in-out;
 }
 
 .icon-option:hover {
     transform: scale(1.1);
-    /* Add a slight scale effect on hover */
+    /* Agrega un efecto de escala ligero al hacer hover */
 }
 
 .title-bold {
@@ -51,9 +55,6 @@
     border-color: #1BC0B2;
 }
 
-
-
-
 .icon-procedure {
     display: flex;
     align-items: flex-start;
@@ -64,6 +65,8 @@
     max-height: 50px;
     margin-right: 10px;
     /* Ajusta el margen según sea necesario */
+    padding-bottom: 2px;
+    /* Añade espacio para el borde inferior */
 }
 
 .procedure-label {
@@ -72,10 +75,11 @@
     /* Agrega un margen superior de 10px */
 }
 
-
 .edit-bold {
     font-weight: bold;
 }
+
+
 
 .custom-bg-color {
     background-color: #1BC0B2;
@@ -88,10 +92,19 @@
 
 option:checked {
     font-weight: bold;
-    text-decoration:underline;
+    text-decoration: underline;
 }
 
 
-option:focus{
+option:focus {
     background-color: red;
+}
+
+.icono-actual {
+    width: 35px;
+}
+
+h1 {
+    margin-bottom: 30px;
+
 }

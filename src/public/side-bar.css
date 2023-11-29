@@ -3,13 +3,12 @@ body {
 }
 
 #wrapper {
-    overflow-x: hidden;
     transition: all 0.3s ease;
 }
 
 #sidebar-wrapper {
     min-height: 100vh;
-    margin-left: -15rem;
+    /* margin-left: -15rem; */
     -webkit-transition: margin 0.25s ease-out;
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
@@ -54,10 +53,6 @@ body {
 @media (min-width: 768px) {
     #sidebar-wrapper {
         margin-left: 0;
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        margin-left: -15rem;
     }
 
     #page-content-wrapper {

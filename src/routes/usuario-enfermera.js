@@ -10,8 +10,6 @@ Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
       case '!==':
           return (v1 !== v2) ? options.fn(this) : options.inverse(this);
       // Agrega más operadores según sea necesario
-      default:
-          return options.inverse(this);
   }
 });
 // Ruta para mostrar la lista de usuarios
