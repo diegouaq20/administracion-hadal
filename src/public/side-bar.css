@@ -1,11 +1,9 @@
 body {
     overflow-x: hidden;
-
 }
 
 #wrapper {
     transition: all 0.3s ease;
-    position: relative;
 }
 
 #sidebar-wrapper {
@@ -15,7 +13,6 @@ body {
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
     transition: margin 0.25s ease-out;
-    position: relative;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -28,31 +25,24 @@ body {
 
 /* Personaliza la apariencia de la barra lateral */
 .sidebar-heading {
-    padding: 1rem;  
-    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 1rem;
     text-align: center;
-    background-color: #F4FFFE;
-    color: #000328;
+    background-color: #1BC0B2;
+    color: #FFFFFF;
     text-transform:uppercase;
-    font-size: 20px;
-    position: relative;
+    font-weight: bold;
 }
 
 .list-group-item {
     border: none;
     border-radius: 0;
-    color: #000328;
-    font-size: 16px;
-}
-
-.dropdown-item{
-    font-size: 16px;
+    color: #245366;
 }
 
 .list-group-item:hover {
     background-color: #f8f9fa;
     cursor: pointer;
-    font-size: 16px;
 }
 
 /* Estilo adicional para el contenido principal */
@@ -69,18 +59,4 @@ body {
         min-width: 0;
         width: 100%;
     }
-}
-
-.backcolor{
-    background-color: #F4FFFE;
-}
-
-.separator{
-    border-bottom: 5px solid #1FBAAF; 
-    width: 100%; 
-    text-align: center;
-}
-
-.texto-light{
-    font-weight: 500px;
 }

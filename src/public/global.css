@@ -12,23 +12,3 @@
 
 .texto-black {
         font-weight: 900; /* Black */}
-
-.card-header{
-    /*background-color: #1FBAAF;
-    background-color: #19958C;*/
-    background-color: #1DA399;
-    font-weight: 700;
-}
-
-.card-title{
-    font-size: 18px;
-    text-align: center;
-    color: #fff;
-    justify-content: center;
-    margin: 0px;
-}
-
-.columns{
-    margin-left: 50px;
-}
-

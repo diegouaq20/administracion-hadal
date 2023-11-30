@@ -1,4 +1,5 @@
-    {{!-- {{#if isAuthenticated}} --}}
+{{!-- {{#if isAuthenticated}} --}}
+
 <head>
     <title>Pacientes</title>
     <link rel="stylesheet" href="/main-edit.css">
@@ -27,19 +28,23 @@
         <thead>
             <tr>
                 <th>Foto</th>
-                <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Acceso</th>
-                <th>Acciones</th>
+                <th>Servicios</th>
+                <th>Detalles</th>
             </tr>
         </thead>
         <tbody>
             {{#each allUsers}}
             <tr data-category="{{this.userData.acceso}}">
-                <td><img class="imagen-usuario" src="{{this.userData.photoUrl}}" alt="Foto de {{this.id}}" width="50">
+                <td>
+                    {{#if this.userData.photoUrl}}
+                    <img class="imagen-usuario" src="{{this.userData.photoUrl}}"  width="50">
+                    {{else}}
+                    {{!-- blank --}}
+                    {{/if}}
                 </td>
-                <td><a href="/usuario-paciente/{{id}}">{{id}}</a></td>
                 <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
                 <td>{{this.userData.email}}</td>
                 <td>
@@ -49,6 +54,7 @@
                     Bloqueado
                     {{/ifCond}}
                 </td>
+                <td>{{this.totalServicios}}</td>
 
                 <td>
                     <a href="/usuario-paciente/{{id}}">Ver</a>
@@ -57,8 +63,9 @@
             {{/each}}
         </tbody>
     </table>
+    <!-- Agrega un espacio al final de la página -->
+    <div style="height: 40px;"></div>
 
-   
     <script>
         //Filtro por categoria
         function filterTableByCategory() {
@@ -91,10 +98,10 @@
     </script>
 </body>
 <script>
-  console.log("Datos de usuarios en la vista:", {{allUsers}});
+    console.log("Datos de usuarios en la vista:", {{ allUsers }});
 </script>
 
- {{!-- {{else}}
-    <!-- Mensaje para usuarios no autenticados -->
-    <p>Debes iniciar sesión para acceder a esta página. <a href="/inicio-sesion">Iniciar sesión</a></p>
-    {{/if}} --}}
+{{!-- {{else}}
+<!-- Mensaje para usuarios no autenticados -->
+<p>Debes iniciar sesión para acceder a esta página. <a href="/inicio-sesion">Iniciar sesión</a></p>
+{{/if}} --}}
