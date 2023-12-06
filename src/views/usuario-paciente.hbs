@@ -1,7 +1,7 @@
 {{!-- {{#if isAuthenticated}} --}}
 
 <head>
-    <title>Pacientes</title>
+    <title>Pacientes registrados</title>
     <link rel="stylesheet" href="/main-edit.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
@@ -10,12 +10,58 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
     <link rel="stylesheet" href="./global.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
+
+    <style>
+
+            #miTabla.table {
+
+         Elimina todos los bordes */
+    }
+        .table-container {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+            
+        }
+
+        .table-container th, .table-container td {
+
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-container th {
+            background-color: #F4FFFE; 
+            
+
+        }
+
+        .imagen-usuario {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        /* Otros estilos */
+        .filter-container {
+            margin-bottom: 20px;
+        }
+
+        .bordertop{
+        border-top: #1FBAAF;
+        border-style: dotted;
+        }
+    </style>
+
 </head>
 
 <body>
-    <h1>Pacientes</h1>
-    <div class="filter-container">
+    <div class="tabletitlecontainer">
+<h3 class="tabletitle">PACIENTES REGISTRADOS</h3>
+    </div>
+    
+    <div class="filter-container right-align">
         <label for="categoryFilter">Filtrar por acceso:</label>
         <select id="categoryFilter" onchange="filterTableByCategory()">
             <option value="">Todas</option>
@@ -25,7 +71,7 @@
     </div>
 
     <table id="miTabla" class="table table-container">
-        <thead>
+        <thead class="bordertop">
             <tr>
                 <th>Foto</th>
                 <th>Nombre</th>
@@ -35,33 +81,35 @@
                 <th>Detalles</th>
             </tr>
         </thead>
-        <tbody>
-            {{#each allUsers}}
-            <tr data-category="{{this.userData.acceso}}">
-                <td>
-                    {{#if this.userData.photoUrl}}
-                    <img class="imagen-usuario" src="{{this.userData.photoUrl}}"  width="50">
-                    {{else}}
-                    {{!-- blank --}}
-                    {{/if}}
-                </td>
-                <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
-                <td>{{this.userData.email}}</td>
-                <td>
-                    {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
-                    Permitido
-                    {{else}}
-                    Bloqueado
-                    {{/ifCond}}
-                </td>
-                <td>{{this.totalServicios}}</td>
+ <tbody style="font-weight: 500;">
+    {{#each allUsers}}
+    <tr data-category="{{this.userData.acceso}}">
+        <td>
+            {{#if this.userData.photoUrl}}
+            <img class="imagen-usuario" src="{{this.userData.photoUrl}}"  width="50">
+            {{else}}
+            {{!-- blank --}}
+            {{/if}}
+        </td>
+        <td >{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
+        <td >{{this.userData.email}}</td>
+        <td style="{{#ifCond this.userData.acceso '===' 'desbloqueado'}}color: green;{{else}}color: red;{{/ifCond}}">
+            {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
+            Permitido
+            {{else}}
+            Bloqueado
+            {{/ifCond}}
+        </td>
+        <td>{{this.totalServicios}}</td>
 
-                <td>
-                    <a href="/usuario-paciente/{{id}}">Ver</a>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
+<td>
+    <a href="/usuario-paciente/{{id}}" style="font-weight: bold;">Ver</a>
+</td>
+
+    </tr>
+    {{/each}}
+</tbody>
+
     </table>
     <!-- Agrega un espacio al final de la página -->
     <div style="height: 40px;"></div>

@@ -12,3 +12,41 @@
 
 .texto-black {
         font-weight: 900; /* Black */}
+
+
+
+        .card-title{
+            font-size: 20px;
+align-items: center;
+            color: #fff;
+
+
+
+
+        }
+
+        .card-grouptitle{
+            font-size: 24px;
+            text-align: center;
+            color: #fff;
+            justify-content: center;
+            vertical-align: center;
+
+
+        }
+
+        .card-header{
+            /*background-color: #1FBAAF;
+            background-color: #19958C;*/
+            background-color: #1FBAAF;
+            /*background-color: #F4FFFE;*/
+
+
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;   
+        }
+
+        
+        

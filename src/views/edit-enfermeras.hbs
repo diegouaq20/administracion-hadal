@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="/main-edit.css">
     <link rel="stylesheet" href="/side-bar.css">
     <link rel="stylesheet" href="/main-paciente.css">
+     <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
 </head>
 
 <body>
@@ -18,7 +20,7 @@
                 {{#if user}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Información de la enfermera</h3>
+                        <h3 class="text-center card-grouptitle">INFORMACIÓN DE ENFERMERO</h3>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -28,14 +30,14 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <p class="mb-1">Nombre: {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}
-                                </p>
-                                <p class="mb-1">Email: {{user.email}}</p>
-                                <p class="mb-1">Domicilio: {{user.domicilio}}</p>
-                                <p class="mb-1">Telefono: {{user.telefono}}</p>
-                                <p class="mb-1">ID: {{user.id}}</p>
-                                <!-- Agregado para mostrar el ID -->
-                                <label for="tipoCategoria" class="form-label">Categoría:</label>
+<p class="mb-1"><strong>Nombre:</strong> {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}</p>
+<p class="mb-1"><strong>Email:</strong> {{user.email}}</p>
+<p class="mb-1"><strong>Domicilio:</strong> {{user.domicilio}}</p>
+<p class="mb-1"><strong>Teléfono:</strong> {{user.telefono}}</p>
+<p class="mb-1"><strong>ID:</strong> {{user.id}}</p>
+
+                                <label for="estadoUsuario" class="form-label"><strong>Categoría:</strong></label>
+
                                 <select class="form-select rounded-pill py-1 px-3 custom-bg-color" id="categoria"
                                     onchange="actualizarCategoriaEnfermera('{{user.id}}', this.value)">
                                     <option value="Basico" {{#ifCondEdit user.categoria '===' 'Basico'
@@ -45,7 +47,9 @@
                                     <option value="Avanzado" {{#ifCondEdit user.categoria '===' 'Avanzado'
                                         }}selected{{/ifCondEdit}}>Avanzado</option>
                                 </select>
-                                <p><label for="estadoUsuario" class="form-label">Estado:</label>
+
+
+                                <p><label for="estadoUsuario" class="form-label"><strong>Estado:</strong></label>
                                     <select class="form-select rounded-pill py-1 px-3 custom-bg-color"
                                         id="estadoUsuario"
                                         onchange="actualizarEstadoEnfermera('{{user.id}}', this.value)">
@@ -70,7 +74,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Documentos</h3>
+                        <h3 class="text-center card-grouptitle">DOCUMENTOS</h3>
                     </div>
                     <div class="card-body">
                         {{#if user}}
@@ -78,7 +82,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br>INE FRONTAL</h4>
+                                        <h4 class="text-center card-title">INE FRONTAL</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.ine}}
@@ -95,7 +99,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br>INE TRASERO</h4>
+                                        <h4 class="text-center card-title">INE TRASERO</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.ine2}}
@@ -112,7 +116,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br> CURP</h4>
+                                        <h4 class="text-center card-title">CURP</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.curp}}
@@ -130,7 +134,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center two-line-text">Cédula <br> Profesional</h4>
+                                        <h4 class="text-center two-line-text card-title">CÉDULA PROFESIONAL</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.cedulaProfecional}}
@@ -149,7 +153,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center">Título <br> Profesional</h4>
+                                        <h4 class="text-center card-title">TÍTULO<br>PROFESIONAL</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.tituloProfecional}}
@@ -168,7 +172,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center">Comprobante de Domicilio</h4>
+                                        <h4 class="text-center card-title">COMPROBANTE DE DOMICILIO</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.comprobanteDomicilio}}
@@ -187,7 +191,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center">Primer <br> Referencia</h4>
+                                        <h4 class="text-center card-title">PRIMER<br>REFERENCIA</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.referenciaUno}}
@@ -206,7 +210,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center">Segunda <br> Referencia</h4>
+                                        <h4 class="text-center card-title">SEGUNDA<br>REFERENCIA</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.referenciaDos}}
@@ -236,7 +240,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Servicios completados</h3>
+                        <h3 class="text-center card-grouptitle">SERVICIOS COMPLETADOS</h3>
                     </div>
                     <div class="card-body">
                         {{#if historial.length}}
