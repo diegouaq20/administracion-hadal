@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" href="/main-edit.css">
-        <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/main.css">
     <link rel="stylesheet" href="/side-bar.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap">
@@ -11,8 +11,8 @@
 </head>
 
 <body>
-                    <div class="tabletitlecontainer">
-<h3 class="tabletitle">EDITAR</h3>
+    <div class="tabletitlecontainer">
+        <h3 class="tabletitle">EDITAR</h3>
     </div>
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center min-vh-200">
@@ -51,13 +51,15 @@
                             </div>
                             <div class="form-group">
                                 <label class="title-bold" for="descripcion">Descripción:</label>
-                                <input type="text" id="descripcion" name="descripcion" value="{{contact.descripcion}}"
-                                    class="form-control">
+                                <textarea id="descripcion" name="descripcion"
+                                    class="form-control">{{contact.descripcion}}</textarea>
+
                             </div>
+
                             <div class="form-group">
                                 <label class="title-bold" for="material">Material:</label>
-                                <input type="text" id="material" name="material" value="{{contact.material}}"
-                                    class="form-control">
+                                <textarea id="material" name="material"
+                                    class="form-control">{{contact.material}}</textarea>
                             </div>
                             <div class="form-group">
                                 <label class="title-bold" for="tiempo">Tiempo:</label>
