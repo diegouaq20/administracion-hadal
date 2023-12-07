@@ -4,34 +4,35 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-        <meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
     <link rel="stylesheet" href="./global.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
     <style>
+        #miTabla.table {
 
-            #miTabla.table {
+            Elimina todos los bordes */
+        }
 
-         Elimina todos los bordes */
-    }
         .table-container {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
 
-            
+
         }
 
-        .table-container th, .table-container td {
+        .table-container th,
+        .table-container td {
 
             padding: 8px;
             text-align: left;
         }
 
         .table-container th {
-            background-color: #F4FFFE; 
-            
+            background-color: #F4FFFE;
+
 
         }
 
@@ -45,8 +46,8 @@
             margin-bottom: 20px;
         }
 
-        .bordertop{
-        border-top: #1FBAAF;
+        .bordertop {
+            border-top: #1FBAAF;
         }
     </style>
 
@@ -54,123 +55,120 @@
 </head>
 
 <body>
-<body>
-    <div class="tabletitlecontainer">
-<h3 class="tabletitle">ENFERMERAS REGISTRADAS</h3>
-    </div>
-    <div class="filter-container parent ">
-        <div>
-            <label for="categoryFilter">Filtrar por categoría:</label>
-            <select id="categoryFilter" onchange="filterTableByCategory()">
-                <option value="">Todas</option>
-                <option value="Basico">Basico</option>
-                <option value="Intermedio">Intermedio</option>
-                <option value="Avanzado">Avanzado</option>
-            </select>
+
+    <body>
+        <div class="tabletitlecontainer">
+            <h3 class="tabletitle">ENFERMERAS REGISTRADAS</h3>
         </div>
+        <div class="filter-container parent ">
+            <div>
+                <label for="categoryFilter">Filtrar por categoría:</label>
+                <select id="categoryFilter" onchange="filterTable()">
+                    <option value="">Todas</option>
+                    <option value="Basico">Basico</option>
+                    <option value="Intermedio">Intermedio</option>
+                    <option value="Avanzado">Avanzado</option>
+                </select>
+            </div>
 
-        <div class="filter-container ">
-            <label for="categoryFilterAccess">Filtrar por acceso:</label>
-            <select id="categoryFilterAccess" onchange="filterTableByAccess()">
-                <option value="">Todas</option>
-                <option value="bloqueado">Bloqueado</option>
-                <option value="desbloqueado">Permitido</option>
-            </select>
+            <div>
+                <label for="categoryFilterAccess">Filtrar por acceso:</label>
+                <select id="categoryFilterAccess" onchange="filterTable()">
+                    <option value="">Todas</option>
+                    <option value="bloqueado">Bloqueado</option>
+                    <option value="desbloqueado">Permitido</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <table id="miTabla" class="table table-container">
-        <thead>
-            <tr>
-                <th>Foto</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Categoría</th>
-                <th>Acceso</th>
-                <th>Servicios</th>
-                <th>Detalles</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each allUsers}}
-            <tr data-category="{{this.userData.categoria}}">
-                <td><img class="imagen-usuario" src="{{this.userData.photoUrl}}" width="50">
-                </td>
-                <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
-                <td>{{this.userData.email}}</td>
-                <td>{{this.userData.categoria}}</td>
+        <table id="miTabla" class="table table-container">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Categoría</th>
+                    <th>Acceso</th>
+                    <th>Servicios</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each allUsers}}
+                <tr data-category="{{this.userData.categoria}}" data-access="{{this.userData.acceso}}">
+                    <td><img class="imagen-usuario" src="{{this.userData.photoUrl}}" width="50">
+                    </td>
+                    <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
+                    <td>{{this.userData.email}}</td>
+                    <td>{{this.userData.categoria}}</td>
 
 
-<td style="{{#ifCond this.userData.acceso '===' 'desbloqueado'}}color: green;{{else}}color: red;{{/ifCond}}">
-            {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
-            Permitido
-            {{else}}
-            Bloqueado
-            {{/ifCond}}
-        </td>
+                    <td
+                        style="{{#ifCond this.userData.acceso '===' 'desbloqueado'}}color: green;{{else}}color: red;{{/ifCond}}">
+                        {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
+                        Permitido
+                        {{else}}
+                        Bloqueado
+                        {{/ifCond}}
+                    </td>
 
 
-                <td>{{this.totalServicios}}</td>
-                <td>
-                    <a href="/usuario-enfermera/{{id}}" style="font-weight: bold;">Ver</a>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+                    <td>{{this.totalServicios}}</td>
+                    <td>
+                        <a href="/usuario-enfermera/{{id}}" style="font-weight: bold;">Ver</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
 
-            <!-- Agrega un espacio al final de la página -->
+        <!-- Agrega un espacio al final de la página -->
         <div style="height: 40px;"></div>
 
-</body>
+    </body>
 
-<script>
-    //Filtros por categoria
-    function filterTableByCategory() {
-        const select = document.getElementById('categoryFilter');
-        const selectedCategory = select.value;
-        const table = document.querySelector('.table');
-        const rows = table.getElementsByTagName('tr');
+    <script>
+        const selectedFilters = {
+            category: '',
+            access: '',
+        };
 
-        for (let i = 1; i < rows.length; i++) {
-            const category = rows[i].getAttribute('data-category');
-            if (selectedCategory === '' || category === selectedCategory) {
-                rows[i].style.display = '';
-            } else {
-                rows[i].style.display = 'none';
+        function filterTable() {
+            const selectCategory = document.getElementById('categoryFilter');
+            selectedFilters.category = selectCategory.value;
+
+            const selectAccess = document.getElementById('categoryFilterAccess');
+            selectedFilters.access = selectAccess.value;
+
+            const table = document.querySelector('.table');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const category = rows[i].getAttribute('data-category');
+                const access = rows[i].getAttribute('data-access');
+
+                const categoryMatch = selectedFilters.category === '' || category === selectedFilters.category;
+                const accessMatch = selectedFilters.access === '' || access === selectedFilters.access;
+
+                if (categoryMatch && accessMatch) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
             }
         }
-    }
 
-    function filterTableByAccess() {
-        const select = document.getElementById('categoryFilterAccess');
-        const selectedAccess = select.value;
-        const table = document.querySelector('.table');
-        const rows = table.getElementsByTagName('tr');
-
-        for (let i = 1; i < rows.length; i++) {
-            const accessCell = rows[i].querySelector('[data-access]');
-            const access = accessCell.getAttribute('data-access');
-
-            if (selectedAccess === '' || access === selectedAccess.toLowerCase()) {
-                rows[i].style.display = '';
-            } else {
-                rows[i].style.display = 'none';
-            }
-        }
-    }
-
-//Datatables
-    $(document).ready(function () {
-        $('#miTabla').DataTable({
-            "paging": true,    // Habilita la paginación
-            "pageLength": 10,  // Número de filas por página
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
-            },
-            // Puedes personalizar otras opciones aquí según tus necesidades
+        //Datatables
+        $(document).ready(function () {
+            $('#miTabla').DataTable({
+                "paging": true,    // Habilita la paginación
+                "pageLength": 10,  // Número de filas por página
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+                },
+                // Puedes personalizar otras opciones aquí según tus necesidades
+            });
         });
-    });
 
 
 
-</script>
+    </script>
