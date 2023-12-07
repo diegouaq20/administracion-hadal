@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
       .map((file) => {
         const fileName = file.name.replace("Avanzados/", "");
         if (fileName) {
-          return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Avanzados%2F${encodeURIComponent(
+          return `https://firebasestorage.googleapis.com/v0/b/hadal-8eb6f.appspot.com/o/Avanzados%2F${encodeURIComponent(
             fileName
           )}?alt=media`;
         }
@@ -82,13 +82,15 @@ router.get("/edit-contact/:id", async (req, res) => {
         .map((file) => {
           const fileName = file.name.replace("Avanzados/", "");
           if (fileName) {
-            return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Avanzados%2F${encodeURIComponent(
+            return `https://firebasestorage.googleapis.com/v0/b/hadal-8eb6f.appspot.com/o/Avanzados%2F${encodeURIComponent(
               fileName
             )}?alt=media`;
           }
           return null;
         })
         .filter((url) => url !== null);
+      console.log("Files in storage:", files);
+      console.log("Icon URLs:", iconUrls);
 
       res.render("edit-avanzados", {
         contact: contactData,
@@ -107,30 +109,29 @@ router.get("/edit-contact/:id", async (req, res) => {
 });
 
 // Ruta para actualizar un servicio avanzado
-router.post('/update-contact/:id', async (req, res) => {
+router.post("/update-contact/:id", async (req, res) => {
   try {
-      const contactId = req.params.id;
-      const updatedContact = {
-          descripcion: req.body.descripcion,
-          material: req.body.material,
-          precio: req.body.precio,
-          procedimiento: req.body.procedimiento,
-          tiempo: req.body.tiempo,
-      };
+    const contactId = req.params.id;
+    const updatedContact = {
+      descripcion: req.body.descripcion,
+      material: req.body.material,
+      precio: req.body.precio,
+      procedimiento: req.body.procedimiento,
+      tiempo: req.body.tiempo,
+    };
 
-      // Verificar si se ha seleccionado un nuevo icono
-      if (req.body.icono) {
-          updatedContact.icono = req.body.icono;
-      }
+    // Verificar si se ha seleccionado un nuevo icono
+    if (req.body.icono) {
+      updatedContact.icono = req.body.icono;
+    }
 
-      const contactRef = db.collection('serviciosavanzados').doc(contactId);
-      await contactRef.set(updatedContact, { merge: true });
-      res.redirect('/servicios-avanzados');
+    const contactRef = db.collection("serviciosavanzados").doc(contactId);
+    await contactRef.set(updatedContact, { merge: true });
+    res.redirect("/servicios-avanzados");
   } catch (error) {
-      console.error('Error actualizando el servicio:', error);
-      res.redirect('/servicios-avanzados');
+    console.error("Error actualizando el servicio:", error);
+    res.redirect("/servicios-avanzados");
   }
 });
-
 
 module.exports = router;

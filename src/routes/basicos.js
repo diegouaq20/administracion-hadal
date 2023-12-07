@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
         const iconUrls = files.map(file => {
             const fileName = file.name.replace('Basicos/', '');
             if (fileName) {
-                return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
+                return `https://firebasestorage.googleapis.com/v0/b/hadal-8eb6f.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
             }
             return null;
         }).filter(url => url !== null);
@@ -82,7 +82,7 @@ router.get('/edit-contact/:id', async (req, res) => {
             const iconUrls = files.map(file => {
                 const fileName = file.name.replace('Basicos/', '');
                 if (fileName) {
-                    return `https://firebasestorage.googleapis.com/v0/b/node-firebase-yt.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
+                    return `https://firebasestorage.googleapis.com/v0/b/hadal-8eb6f.appspot.com/o/Basicos%2F${encodeURIComponent(fileName)}?alt=media`;
                 }
                 return null;
             }).filter(url => url !== null);

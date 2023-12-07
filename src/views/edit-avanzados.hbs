@@ -4,7 +4,6 @@
 <head>
     <link rel="stylesheet" href="/side-bar.css">
     <link rel="stylesheet" href="/main-edit.css">
-    <link rel="stylesheet" href="/main.css">
 </head>
 
 <body>
@@ -23,9 +22,9 @@
                                 <div class="image-grid">
                                     {{#each iconUrls}}
                                     <label class="image-option">
-                                        <input type="radio" name="icono" value="{{this}}" {{#ifCondIcono
+                                        <input cache="no-store" type="radio" name="icono" value="{{this}}" {{#ifCondIcono
                                             contact.icono}}checked{{/ifCondIcono}} />
-                                        <img src="{{this}}" alt="Icono" class="icon-option" />
+                                        <img cache="no-store" src="{{this}}" alt="Icono" class="icon-option" />
                                     </label>
                                     {{/each}}
                                 </div>
