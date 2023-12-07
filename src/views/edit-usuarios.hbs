@@ -8,15 +8,15 @@
 </head>
 
 <body>
-                <div class="tabletitlecontainer">
-<h3 class="tabletitle">EDITAR</h3>
+    <div class="tabletitlecontainer">
+        <h3 class="tabletitle">EDITAR</h3>
     </div>
     <div class="container-fluid">
         <div class="row justify-content-center align-items-center min-vh-200">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
-                        <h1 class="text-center">Editar usuario</h1>
+                        <h1 class="text-center card-title">EDITAR SERVICIO INTERMEDIO</h1>
                     </div>
                     <div class="card-body">
                         <form action="/registro-usuarios/update-usuarios/{{userId}}" method="POST">
@@ -36,7 +36,8 @@
                                 <label class="title-bold" for="master">Tipo de usuario:</label>
                                 <select class="form-control" id="master" name="master">
                                     <option value="false" {{#if userData.master}}selected{{/if}}>Administrador</option>
-                                    <option value="true" {{#if userData.master}}selected{{/if}}>Super-Administrador</option>
+                                    <option value="true" {{#if userData.master}}selected{{/if}}>Super-Administrador
+                                    </option>
                                 </select><br>
 
                                 <button class="btn btn-primary btn-block" type="submit">Guardar Cambios</button>
