@@ -1,9 +1,11 @@
 body {
     overflow-x: hidden;
+
 }
 
 #wrapper {
     transition: all 0.3s ease;
+
 }
 
 #sidebar-wrapper {
@@ -13,6 +15,7 @@ body {
     -moz-transition: margin 0.25s ease-out;
     -o-transition: margin 0.25s ease-out;
     transition: margin 0.25s ease-out;
+    
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -28,16 +31,17 @@ body {
     font-size: 1.2rem;
     padding: 1rem;
     text-align: center;
-    background-color: #1BC0B2;
-    color: #FFFFFF;
+    background-color: #F4FFFE;
     text-transform:uppercase;
     font-weight: bold;
+    color: #000328;
+    
 }
 
 .list-group-item {
     border: none;
     border-radius: 0;
-    color: #245366;
+    color: #000328;
 }
 
 .list-group-item:hover {
@@ -50,13 +54,35 @@ body {
     padding-top: 1rem;
 }
 
+
+.colorside{
+    background-color: #F4FFFE;
+    /*background-color: #F4FAF9;*/
+}
+
+.logoMenuu{
+    width: 125px;
+    height: 125px;
+    background-color: #F4FFFE;
+}
+
+.separator{
+    border-bottom: 5px solid #1FBAAF; 
+    width: 100%; 
+    text-align: center;
+    color: #000328;
+
+}
+
 @media (min-width: 768px) {
     #sidebar-wrapper {
         margin-left: 0;
+        
     }
 
     #page-content-wrapper {
         min-width: 0;
         width: 100%;
+        
     }
 }

@@ -8,12 +8,57 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
 
     <link rel="stylesheet" href="./global.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
+    <style>
+
+            #miTabla.table {
+
+         Elimina todos los bordes */
+    }
+        .table-container {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+            
+        }
+
+        .table-container th, .table-container td {
+
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-container th {
+            background-color: #F4FFFE; 
+            
+
+        }
+
+        .imagen-usuario {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        /* Otros estilos */
+        .filter-container {
+            margin-bottom: 20px;
+        }
+
+        .bordertop{
+        border-top: #1FBAAF;
+        }
+    </style>
+
+
 </head>
 
 <body>
-    <h1>Enfermeras</h1>
-    <div class="filter-container parent">
+<body>
+    <div class="tabletitlecontainer">
+<h3 class="tabletitle">ENFERMERAS REGISTRADAS</h3>
+    </div>
+    <div class="filter-container parent ">
         <div>
             <label for="categoryFilter">Filtrar por categoría:</label>
             <select id="categoryFilter" onchange="filterTableByCategory()">
@@ -24,7 +69,7 @@
             </select>
         </div>
 
-        <div>
+        <div class="filter-container ">
             <label for="categoryFilterAccess">Filtrar por acceso:</label>
             <select id="categoryFilterAccess" onchange="filterTableByAccess()">
                 <option value="">Todas</option>
@@ -33,7 +78,7 @@
             </select>
         </div>
     </div>
-    <table id="miTabla" class="table">
+    <table id="miTabla" class="table table-container">
         <thead>
             <tr>
                 <th>Foto</th>
@@ -53,16 +98,20 @@
                 <td>{{this.userData.nombre}} {{this.userData.primerApellido}} {{this.userData.segundoApellido}}</td>
                 <td>{{this.userData.email}}</td>
                 <td>{{this.userData.categoria}}</td>
-                <td data-access="{{this.userData.acceso}}">
-                    {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
-                    Permitido
-                    {{else}}
-                    Bloqueado
-                    {{/ifCond}}
-                </td>
+
+
+<td style="{{#ifCond this.userData.acceso '===' 'desbloqueado'}}color: green;{{else}}color: red;{{/ifCond}}">
+            {{#ifCond this.userData.acceso '===' 'desbloqueado'}}
+            Permitido
+            {{else}}
+            Bloqueado
+            {{/ifCond}}
+        </td>
+
+
                 <td>{{this.totalServicios}}</td>
                 <td>
-                    <a href="/usuario-enfermera/{{id}}">Ver</a>
+                    <a href="/usuario-enfermera/{{id}}" style="font-weight: bold;">Ver</a>
                 </td>
             </tr>
             {{/each}}

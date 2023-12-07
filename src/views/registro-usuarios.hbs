@@ -17,12 +17,55 @@
     <link rel="stylesheet" href="/main.css">
 
 
-    <link rel="stylesheet" href="./global.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap">
+<link rel="stylesheet" href="./global.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
+<style>
 
+            #miTabla.table {
+
+         Elimina todos los bordes */
+    }
+        .table-container {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+
+            
+        }
+
+        .table-container th, .table-container td {
+
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-container th {
+            background-color: #F4FFFE; 
+            
+
+        }
+
+        .imagen-usuario {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        /* Otros estilos */
+        .filter-container {
+            margin-bottom: 20px;
+        }
+
+        .bordertop{
+        border-top: #1FBAAF;
+        border-style: dotted;
+        }
+    </style>
 
 </head>
 <body>
+        <div class="tabletitlecontainer">
+<h3 class="tabletitle">REGISTRAR ADMINISTRADORES</h3>
+    </div>
     <div class="container">
         <div class="row justify-content-end">
             <div class="col-md-6">
@@ -76,7 +119,7 @@
             <div class="col-md-6"> <!-- Columna para el formulario en el lado derecho -->
                 <div class="card">
                     <div class="card-header bg-custom-primary text-white text-center">
-                        <h2>Registro de Usuario</h2>
+                        <h2 class="card-title">REGISTRO DE USUARIOS</h2>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="/registro-usuarios">

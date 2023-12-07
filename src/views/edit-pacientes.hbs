@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="/main-edit.css">
     <link rel="stylesheet" href="/side-bar.css">
     <link rel="stylesheet" href="/main-paciente.css">
+     <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
 </head>
 
 <body>
@@ -18,7 +20,7 @@
                 {{#if user}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Información del Paciente</h3>
+                        <h3 class="text-center card-grouptitle">INFORMACIÓN DEL PACIENTE</h3>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -28,13 +30,14 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <p class="mb-1">Nombre: {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}
-                                </p>
-                                <p class="mb-1">Email: {{user.email}}</p>
-                                <p class="mb-1">Domicilio: {{user.domicilio}}</p>
-                                <p class="mb-1">Telefono: {{user.telefono}}</p>
-                                <p class="mb-1">ID: {{user.id}}</p>
-                                <label for="estadoUsuario" class="form-label">Estado:</label>
+<p class="mb-1"><strong>Nombre:</strong> {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}</p>
+<p class="mb-1"><strong>Email:</strong> {{user.email}}</p>
+<p class="mb-1"><strong>Domicilio:</strong> {{user.domicilio}}</p>
+<p class="mb-1"><strong>Telefono:</strong> {{user.telefono}}</p>
+<p class="mb-1"><strong>ID:</strong> {{user.id}}</p>
+
+                                <label for="estadoUsuario" class="form-label"><strong>Estado:</strong></label>
+
                                 <select class="form-select rounded-pill py-1 px-3 custom-bg-color" id="estadoUsuario"
                                     onchange="actualizarEstadoPaciente('{{user.id}}', this.value)">
                                     <option value="bloqueado" {{#ifCondEdit user.acceso '===' 'bloqueado'
@@ -57,7 +60,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Documentos</h3>
+                        <h3 class="text-center card-grouptitle">DOCUMENTOS</h3>
                     </div>
                     <div class="card-body">
                         {{#if user}}
@@ -65,7 +68,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card mb-4">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br>INE FRONTAL</h4>
+                                        <h4 class="text-center card-title">INE FRONTAL</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.ine}}
@@ -82,7 +85,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br>INE TRASERO</h4>
+                                        <h4 class="text-center card-title">INE TRASERO</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.ine2}}
@@ -99,7 +102,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center"> <br> CURP</h4>
+                                        <h4 class="text-center two-line-text card-title">CURP</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.curp}}
@@ -117,7 +120,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center two-line-text">Receta <br> Médica</h4>
+                                        <h4 class="text-center two-line-text card-title">RECETA MÉDICA</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.receta}}
@@ -135,7 +138,7 @@
                             <div class="col-md-3">
                                 <div class="card document-card">
                                     <div class="card-header">
-                                        <h4 class="text-center two-line-text">Comprobante de Domicilio</h4>
+                                        <h4 class="text-center card-title" >COMPROBANTE DE DOMICILIO</h4>
                                     </div>
                                     <div class="card-body text-center">
                                         {{#if user.comprobanteDomicilio}}
@@ -165,7 +168,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center">Servicios solicitados</h3>
+                        <h3 class="text-center card-grouptitle">SERVICIOS SOLICITADOS</h3>
                     </div>
                     <div class="card-body">
                         {{#if historial.length}}

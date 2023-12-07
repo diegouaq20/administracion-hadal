@@ -50,9 +50,9 @@
 }
 
 .btn-hide-show {
-    background-color: #1BC0B2;
-    border: #1BC0B2;
-    border-color: #1BC0B2;
+    background-color: #1FBAAF;
+    border: #1FBAAF;
+    border-color: #1FBAAF;
 }
 
 .icon-procedure {
@@ -90,6 +90,12 @@
     line-height: inherit;
 }
 
+
+.right-align {
+    text-align: right;
+}
+
+
 option:checked {
     font-weight: bold;
     text-decoration: underline;
@@ -108,3 +114,38 @@ h1 {
     margin-bottom: 30px;
 
 }
+
+.tabletitle{
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
+    color: #FFFFFF;
+    vertical-align: center;
+}
+
+.tabletitlecontainer{
+    background-color: #1FBAAF;
+    height: 60px;
+    border-radius: 3px;
+    margin-bottom: 30px;
+
+
+    display: flex;
+    align-items: center; /* Centrar verticalmente */
+    justify-content: center; /* Centrar horizontalmente */
+
+}
+
+
+.disponible {
+    color: green;
+
+
+
+  }
+  
+  .agotado {
+    color: red;
+
+  }
