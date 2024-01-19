@@ -9,10 +9,12 @@
 
 /* Estilo para el botón de Iniciar Sesión */
 .btn-custom-primary {
+    font-size: 15px;
     background-color: #1BC0B2;
     /* Cambia este color según tus preferencias */
     border-color: #1BC0B2;
     color: #fff;
+    
 }
 
 .btn-custom-primary:hover {
