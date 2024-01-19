@@ -4,8 +4,14 @@
     <link rel="stylesheet" href="/main-edit.css">
     <link rel="stylesheet" href="/side-bar.css">
     <link rel="stylesheet" href="/main-paciente.css">
-     <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700;900&display=swap">
+    <!-- jsPDF para PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- SheetJS para Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 </head>
 
 <body>
@@ -20,7 +26,7 @@
                 {{#if user}}
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="text-center card-grouptitle">INFORMACIÓN DE ENFERMERO</h3>
+                        <h3 class="text-center card-grouptitle">INFORMACIÓN DE ENFERMERAS</h3>
                     </div>
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -30,11 +36,12 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-<p class="mb-1"><strong>Nombre:</strong> {{user.nombre}} {{user.primerApellido}} {{user.segundoApellido}}</p>
-<p class="mb-1"><strong>Email:</strong> {{user.email}}</p>
-<p class="mb-1"><strong>Domicilio:</strong> {{user.domicilio}}</p>
-<p class="mb-1"><strong>Teléfono:</strong> {{user.telefono}}</p>
-<p class="mb-1"><strong>ID:</strong> {{user.id}}</p>
+                                <p class="mb-1"><strong>Nombre:</strong> {{user.nombre}} {{user.primerApellido}}
+                                    {{user.segundoApellido}}</p>
+                                <p class="mb-1"><strong>Email:</strong> {{user.email}}</p>
+                                <p class="mb-1"><strong>Domicilio:</strong> {{user.domicilio}}</p>
+                                <p class="mb-1"><strong>Teléfono:</strong> {{user.telefono}}</p>
+                                <p class="mb-1"><strong>ID:</strong> {{user.id}}</p>
 
                                 <label for="estadoUsuario" class="form-label"><strong>Categoría:</strong></label>
 
@@ -47,8 +54,15 @@
                                     <option value="Avanzado" {{#ifCondEdit user.categoria '===' 'Avanzado'
                                         }}selected{{/ifCondEdit}}>Avanzado</option>
                                 </select>
-
-
+                                {{!-- Eliminar enfermera --}}
+                                <div class="btn-group">
+                                    <form action="/usuario-enfermera/eliminar-enfermera/{{user.id}}" method="POST">
+                                        <button type="submit"
+                                            class="form-select rounded-pill py-1 px-3 custom-bg-color-danger"
+                                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta enfermera?')">Eliminar
+                                            Enfermera</button>
+                                    </form>
+                                </div>
                                 <p><label for="estadoUsuario" class="form-label"><strong>Estado:</strong></label>
                                     <select class="form-select rounded-pill py-1 px-3 custom-bg-color"
                                         id="estadoUsuario"
@@ -58,248 +72,281 @@
                                         <option value="desbloqueado" {{#ifCondEdit user.acceso '===' 'desbloqueado'
                                             }}selected{{/ifCondEdit}}>Permitido</option>
                                     </select>
-                                </p>
 
-                                <!-- Agrega más campos aquí -->
                             </div>
+                            <!-- Agrega más campos aquí -->
                         </div>
                     </div>
                 </div>
-                {{else}}
-                <p>Usuario no encontrado</p>
-                {{/if}}
             </div>
+            {{else}}
+            <p>Usuario no encontrado</p>
+            {{/if}}
         </div>
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center card-grouptitle">DOCUMENTOS</h3>
-                    </div>
-                    <div class="card-body">
-                        {{#if user}}
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="card document-card mb-4">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">INE FRONTAL</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.ine}}
-                                        <a href="{{user.ine}}" target="_blank" class="btn btn-primary">Ver Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'ine')">Anular Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center card-grouptitle">DOCUMENTOS</h3>
+                </div>
+                <div class="card-body">
+                    {{#if user}}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card document-card mb-4">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">INE FRONTAL</h4>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card mb-4">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">INE TRASERO</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.ine2}}
-                                        <a href="{{user.ine2}}" target="_blank" class="btn btn-primary">Ver Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'ine2')">Anular Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">CURP</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.curp}}
-                                        <a href="{{user.curp}}" target="_blank" class="btn btn-primary">Ver
-                                            Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'curp')">Anular Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card">
-                                    <div class="card-header">
-                                        <h4 class="text-center two-line-text card-title">CÉDULA PROFESIONAL</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.cedulaProfecional}}
-                                        <a href="{{user.cedulaProfecional}}" target="_blank" class="btn btn-primary">Ver
-                                            Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'cedulaProfecional')">Anular
-                                            Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">TÍTULO<br>PROFESIONAL</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.tituloProfecional}}
-                                        <a href="{{user.tituloProfecional}}" target="_blank" class="btn btn-primary">Ver
-                                            Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'tituloProfecional')">Anular
-                                            Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card mb-4">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">COMPROBANTE DE DOMICILIO</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.comprobanteDomicilio}}
-                                        <a href="{{user.comprobanteDomicilio}}" target="_blank"
-                                            class="btn btn-primary">Ver Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'comprobanteDomicilio')">Anular
-                                            Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card mb-4">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">PRIMER<br>REFERENCIA</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.referenciaUno}}
-                                        <a href="{{user.referenciaUno}}" target="_blank" class="btn btn-primary">Ver
-                                            Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'referenciaUno')">Anular
-                                            Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card document-card mb-4">
-                                    <div class="card-header">
-                                        <h4 class="text-center card-title">SEGUNDA<br>REFERENCIA</h4>
-                                    </div>
-                                    <div class="card-body text-center">
-                                        {{#if user.referenciaDos}}
-                                        <a href="{{user.referenciaDos}}" target="_blank" class="btn btn-primary">Ver
-                                            Documento</a>
-                                        <button class="btn btn-danger mt-2"
-                                            onclick="anularDocumento('{{user.id}}', 'referenciaDos')">Anular
-                                            Documento</button>
-                                        {{else}}
-                                        <button class="btn btn-primary" disabled>Ver Documento</button>
-                                        <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
-                                        {{/if}}
-                                    </div>
+                                <div class="card-body text-center">
+                                    {{#if user.ine}}
+                                    <a href="{{user.ine}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'ine')">Anular Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
-                        {{else}}
-                        <p>Usuario no encontrado</p>
-                        {{/if}}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- tabla servicios -->
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center card-grouptitle">SERVICIOS COMPLETADOS</h3>
-                    </div>
-                    <div class="card-body">
-                        {{#if historial.length}}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p>Total de servicios: {{totalFilas}}</p>
-                            </div>
-                            <div class="col-md-6 text-right">
-                                <p>Ganancias totales: ${{truncateDecimal sumaTotal}}</p>
+                        <div class="col-md-3">
+                            <div class="card document-card mb-4">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">INE TRASERO</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.ine2}}
+                                    <a href="{{user.ine2}}" target="_blank" class="btn btn-primary">Ver Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'ine2')">Anular Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
                             </div>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Servicio</th>
-                                    <th>Categoria</th>
-                                    <th>Tipo</th>
-                                    <th>Total</th>
-                                    <th>Paciente</th>
-                                    <!-- Agrega más encabezados según sea necesario -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{#each historial}}
-                                <tr>
-                                    <td>{{this.historialData.numeroFila}}</td>
-                                    <td>{{this.historialData.dia}} <br>
-                                        {{this.historialData.diaDelMes}} de {{this.historialData.mes}} de
-                                        {{this.historialData.ano}}</td>
-                                    <td>{{this.historialData.hora}}</td>
-                                    <td>{{this.historialData.servicio}}</td>
-                                    <td>{{this.historialData.tipoCategoria}}</td>
-                                    <td>{{this.historialData.tipoServicio}}</td>
-                                    <td>${{truncateDecimal (multiply this.historialData.total 0.75)}}</td>
-                                    <td><a href="/usuario-paciente/{{this.historialData.pacienteId}}">{{this.historialData.nombrePaciente}}</a></td>
-                                    <!-- Añade más celdas según sea necesario -->
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-                        {{else}}
-                        <p>No hay historial disponible</p>
-                        {{/if}}
+                        <div class="col-md-3">
+                            <div class="card document-card">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">CURP</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.curp}}
+                                    <a href="{{user.curp}}" target="_blank" class="btn btn-primary">Ver
+                                        Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'curp')">Anular Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card document-card">
+                                <div class="card-header">
+                                    <h4 class="text-center two-line-text card-title">CÉDULA PROF.</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.cedulaProfecional}}
+                                    <a href="{{user.cedulaProfecional}}" target="_blank" class="btn btn-primary">Ver
+                                        Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'cedulaProfecional')">Anular
+                                        Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card document-card">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">TÍTULO<br>PROFESIONAL</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.tituloProfecional}}
+                                    <a href="{{user.tituloProfecional}}" target="_blank" class="btn btn-primary">Ver
+                                        Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'tituloProfecional')">Anular
+                                        Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card document-card mb-4">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">COMPROBANTE DE DOMICILIO</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.comprobanteDomicilio}}
+                                    <a href="{{user.comprobanteDomicilio}}" target="_blank" class="btn btn-primary">Ver
+                                        Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'comprobanteDomicilio')">Anular
+                                        Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card document-card mb-4">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">PRIMER<br>REFERENCIA</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.referenciaUno}}
+                                    <a href="{{user.referenciaUno}}" target="_blank" class="btn btn-primary">Ver
+                                        Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'referenciaUno')">Anular
+                                        Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card document-card mb-4">
+                                <div class="card-header">
+                                    <h4 class="text-center card-title">SEGUNDA<br>REFERENCIA</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    {{#if user.referenciaDos}}
+                                    <a href="{{user.referenciaDos}}" target="_blank" class="btn btn-primary">Ver
+                                        Documento</a>
+                                    <button class="btn btn-danger mt-2"
+                                        onclick="anularDocumento('{{user.id}}', 'referenciaDos')">Anular
+                                        Documento</button>
+                                    {{else}}
+                                    <button class="btn btn-primary" disabled>Ver Documento</button>
+                                    <button class="btn btn-danger mt-2" disabled>Anular Documento</button>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    {{else}}
+                    <p>Usuario no encontrado</p>
+                    {{/if}}
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Agrega un espacio al final de la página -->
-        <div style="height: 40px;"></div>
+    <!-- tabla servicios -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center card-grouptitle">SERVICIOS COMPLETADOS</h3>
+                </div>
+                <div class="card-body">
+                    {{#if historial.length}}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Total de servicios: {{totalFilas}}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p>Ganancias totales: ${{truncateDecimal sumaTotal}}</p>
+                        </div>
+                    </div>
+                    <table id="miTabla" class="table table-container">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fecha</th>
+                                {{!-- <th>Mes</th> --}}
+                                <th>Hora</th>
+                                <th>Servicio</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th>Total</th>
+                                <th>Paciente</th>
+                                <!-- Agrega más encabezados según sea necesario -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each historial}}
+                            <tr>
+                                <td>{{this.historialData.numeroFila}}</td>
+                                <td>{{this.historialData.diaDelMes}} de {{this.historialData.mes}} de
+                                    {{this.historialData.ano}}</td>
+                                {{!-- <td>{{this.historialData.mes}}</td> --}}
+                                <td>{{this.historialData.hora}}</td>
+                                <td>{{this.historialData.servicio}}</td>
+                                <td>{{this.historialData.tipoCategoria}}</td>
+                                <td>{{this.historialData.tipoServicio}}</td>
+                                <td>${{truncateDecimal (multiply this.historialData.total 0.75)}}</td>
+                                <td><a
+                                        href="/usuario-paciente/{{this.historialData.pacienteId}}">{{this.historialData.nombrePaciente}}</a>
+                                </td>
+                                <!-- Añade más celdas según sea necesario -->
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{else}}
+                    <p>No hay historial disponible</p>
+                    {{/if}}
+
+                    <select id="selectAnio" class="form-select" aria-label="Default select example">
+                        <!-- opciones para el año -->
+                        <option value="2023">2023</option>
+                    </select>
+
+                    <select id="selectMes" class="form-select" aria-label="Default select example">
+                        <!-- opciones para el mes -->
+                        <option value="diciembre">Diciembre</option>
+                    </select>
+                    <form action="/usuario-enfermera/generar-informe/{{user.id}}" method="POST">
+                        <!-- Other form elements -->
+
+                        <input type="hidden" id="selectedAnio" name="selectedAnio" value="">
+                        <input type="hidden" id="selectedMes" name="selectedMes" value="">
+
+                        <button type="submit" name="format" value="pdf" class="btn btn-primary">Generar PDF</button>
+                        <button type="submit" name="format" value="excel" class="btn btn-success">Generar Excel</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agrega un espacio al final de la página -->
+    <div style="height: 40px;"></div>
 
     </div> <!-- Cierre del contenedor principal -->
 
 
 
     <script>
+
+        document.getElementById('selectAnio').addEventListener('change', function () {
+            document.getElementById('selectedAnio').value = this.value;
+        });
+
+        document.getElementById('selectMes').addEventListener('change', function () {
+            document.getElementById('selectedMes').value = this.value;
+        });
+
+
 
         function actualizarCategoriaEnfermera(userId, nuevaCategoria) {
             if (confirm("¿Estás seguro de que deseas cambiar la categoría?")) {
@@ -364,6 +411,19 @@
                     });
             }
         }
+
+        $(document).ready(function () {
+            $('#miTabla').DataTable({
+                "paging": true,
+                "pageLength": 10,
+                "order": [[1, 'asc']], // Specify the column index (1) and order ('asc' for ascending)
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json',
+                },
+                // Other options as needed
+            });
+        });
+
 
     </script>
 

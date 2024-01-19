@@ -90,6 +90,13 @@
     line-height: inherit;
 }
 
+.custom-bg-color-danger {
+    background-color: #ff0000;
+    color: #FFFFFF;
+    /* Cambia el color a tu elección */
+    border: none;
+}
+
 
 .right-align {
     text-align: right;

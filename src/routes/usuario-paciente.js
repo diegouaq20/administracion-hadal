@@ -140,4 +140,42 @@ router.post("/cambiar-estado/:id/:nuevoEstado", async (req, res) => {
   }
 });
 
+router.post("/eliminar-paciente/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Verifica que el ID sea válido antes de intentar eliminar
+    if (!userId) {
+      console.error("ID de paciente no válido");
+      res.redirect("/usuario-paciente");
+      return;
+    }
+
+    // Obtiene la referencia al documento de Firebase que corresponde al ID
+    const contactRef = db.collection("usuariopaciente").doc(userId);
+
+    // Verifica si el documento existe antes de intentar eliminarlo
+    const contactDoc = await contactRef.get();
+    if (!contactDoc.exists) {
+      console.error("El paciente no existe en la base de datos");
+      res.redirect("/usuario-paciente");
+      return;
+    }
+
+    // Realiza la eliminación del documento
+    await contactRef.delete();
+    console.log("Paciente eliminado exitosamente");
+
+    // Show a native alert to the user
+    res.send(
+      "<script>alert('Paciente eliminado exitosamente'); window.location='/usuario-paciente';</script>"
+    );
+  } catch (error) {
+    console.error("Error eliminando al paciente:", error);
+
+    // Send an error message
+    res.status(500).send("Hubo un error eliminando al paciente");
+  }
+});
+
 module.exports = router;
